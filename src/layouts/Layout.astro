@@ -23,6 +23,7 @@ import {
 import PageHead from "@components/layout/PageHead.astro";
 import SiteHeader from "@components/layout/SiteHeader.astro";
 import MobileMenu from "@components/layout/MobileMenu.astro";
+import SiteFooter from "@components/layout/SiteFooter.astro";
 
 type AlternateLink = {
   lang: string;
@@ -410,7 +411,9 @@ const navItems = await resolveNavItems();
           <slot />
         </div>
       </main>
+      <SiteFooter />
       <script is:inline set:html={localeBootstrap} />
+      <script src="/js/sticky-sidebar.js" defer></script>
     </div>
   </body>
 </html>

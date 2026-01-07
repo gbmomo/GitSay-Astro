@@ -1,0 +1,68 @@
+---
+// Site Footer Component
+// Displays copyright, links, and legal information
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+    <div class="site-footer__content">
+        <div class="site-footer__line">
+            © {year} Goblin_MoMo，采用 <a
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                target="_blank"
+                rel="noopener noreferrer">CC BY-NC-SA 4.0</a
+            > 许可
+        </div>
+        <div class="site-footer__line site-footer__links">
+            <a href="/rss.xml" target="_blank" rel="noopener noreferrer">RSS</a>
+            <span class="site-footer__separator">/</span>
+            <a
+                href="/sitemap-index.xml"
+                target="_blank"
+                rel="noopener noreferrer">网站地图</a
+            >
+        </div>
+        <div class="site-footer__line">
+            由 <a
+                href="https://astro.build"
+                target="_blank"
+                rel="noopener noreferrer">Astro</a
+            > 和 <a
+                href="https://github.com/JustSereja/morethan-log-astro"
+                target="_blank"
+                rel="noopener noreferrer">morethan-log</a
+            > 提供支持
+        </div>
+        <div class="site-footer__line site-footer__beian">
+            <a
+                href="https://beian.miit.gov.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="site-footer__beian-link"
+            >
+                <img
+                    src="/images/icp-icon.png"
+                    alt="ICP"
+                    class="site-footer__icon"
+                />
+                <span>晋ICP备2025062756号-3</span>
+            </a>
+        </div>
+        <div class="site-footer__line site-footer__beian">
+            <a
+                href="https://beian.mps.gov.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="site-footer__beian-link"
+            >
+                <img
+                    src="/images/beian-icon.png"
+                    alt="公安备案"
+                    class="site-footer__icon"
+                />
+                <span>晋公网安备14010502990326号</span>
+            </a>
+        </div>
+    </div>
+</footer>

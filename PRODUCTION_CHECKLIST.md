@@ -32,7 +32,7 @@ The following improvements have been made to the template:
 
 Edit `src/config/site.ts`:
 
-- [ ] Update `title` with your blog name (currently: "Morethan-Log")
+- [ ] Update `title` with your blog name (currently: "码言-GitSay")
 - [ ] Update `description` (both English and Russian)
 - [ ] Replace `"https://morethan-log-astro.sereja.com"` with your actual domain
 - [ ] Update author information (currently: "Sereja", "demo@morethan-log.com")
@@ -73,7 +73,7 @@ Edit `src/config/locales.ts`:
 - [ ] Replace `/public/favicon-32x32.png`
 
 #### Images
-- [ ] Replace `/public/img/avatar.svg` with your avatar
+- [ ] Replace `/public/img/avatar.svg` with `/public/img/profile.png` (or your actual avatar)
 - [ ] Replace `/public/img/og-image.svg` with your Open Graph image
 - [ ] Replace `/public/img/rss-logo.svg` with your RSS channel logo (144x144px)
   - **Note**: For better RSS reader compatibility, also create `/public/img/rss-logo.png`

@@ -3,36 +3,28 @@ import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './locales';
 
 const siteConfig: SiteConfig = {
   // Basic site information
-  siteUrl: 'https://morethan-log-astro.sereja.com',
+  siteUrl: 'https://www.gitsay.com',
   title: {
-    zh: 'Morethan-Log',
-    en: 'Morethan-Log',
-    ru: 'Morethan-Log',
+    zh: '码言-GitSay',
   },
   description: {
-    zh: '一个使用 Astro 构建的现代博客模板 - 快速、响应式、多语言',
-    en: 'A modern blog template built with Astro - fast, responsive, and multilingual',
-    ru: 'Современный шаблон блога на Astro - быстрый, адаптивный и многоязычный',
+    zh: '码上有言，技术有料',
   },
 
   // Author information
   author: {
     name: {
-      zh: 'Sereja',
-      en: 'Sereja',
-      ru: 'Серёжа',
+      zh: 'Goblin_MoMo',
     },
-    email: 'demo@morethan-log.com',
-    avatar: '/img/avatar.svg',
+    email: 'S@gitsay.com',
+    avatar: '/img/profile.png',
     bio: {
-      zh: '全栈开发者，热衷于创建美观实用的 Web 应用。使用 Astro、React 和现代 Web 技术进行开发。',
-      en: 'Full-stack developer passionate about creating beautiful and functional web applications. Building with Astro, React, and modern web technologies.',
-      ru: 'Full-stack разработчик, увлеченный созданием красивых и функциональных веб-приложений. Работаю с Astro, React и современными веб-технологиями.',
+      zh: '以代码构筑技术世界，用游戏解锁快乐日常，科技迷 + 游戏玩家的双重身份。',
     },
   },
 
   // Blog settings
-  postsPerPage: 10,
+  postsPerPage: 8,
   featuredImageFallback: '/img/posts/placeholder.svg',
 
   // Contact & social links
@@ -41,13 +33,9 @@ const siteConfig: SiteConfig = {
       id: 'github',
       label: {
         zh: 'GitHub',
-        en: 'GitHub',
-        ru: 'GitHub',
       },
       url: {
-        zh: 'https://github.com/yourusername',
-        en: 'https://github.com/yourusername',
-        ru: 'https://github.com/yourusername-ru',
+        zh: 'https://github.com/gbmomo',
       },
       iconSvg: `<svg
   stroke="currentColor"
@@ -63,102 +51,54 @@ const siteConfig: SiteConfig = {
 </svg>`,
     },
     {
-      id: 'twitter',
+      id: 'QQ',
       label: {
-        zh: 'Twitter',
-        en: 'Twitter',
-        ru: 'Twitter',
+        zh: 'QQ',
       },
       url: {
-        zh: 'https://x.com/yourusername',
-        en: 'https://x.com/yourusername',
-        ru: 'https://x.com/yourusername-ru',
+        zh: 'https://qm.qq.com/q/O1iissxm4W',
       },
-      icon: '🐦',
+      iconSvg: `<svg t="1767801852980" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3488" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em"><path d="M824.8 613.2c-16-51.4-34.4-94.6-62.7-165.3C766.5 262.2 689.3 112 511.5 112 331.7 112 256.2 265.2 261 447.9c-28.4 70.8-46.7 113.7-62.7 165.3-34 109.5-23 154.8-14.6 155.8 18 2.2 70.1-82.4 70.1-82.4 0 49 25.2 112.9 79.8 159-26.4 8.1-85.7 29.9-71.6 53.8 11.4 19.3 196.2 12.3 249.5 6.3 53.3 6 238.1 13 249.5-6.3 14.1-23.8-45.3-45.7-71.6-53.8 54.6-46.2 79.8-110.1 79.8-159 0 0 52.1 84.6 70.1 82.4 8.5-1.1 19.5-46.4-14.5-155.8z" p-id="3489" fill="currentColor"></path></svg>`,
     },
     {
-      id: 'linkedin',
+      id: '微信',
       label: {
-        zh: 'LinkedIn',
-        en: 'LinkedIn',
-        ru: 'LinkedIn',
+        zh: '微信',
       },
       url: {
         zh: 'https://linkedin.com/in/yourusername',
-        en: 'https://linkedin.com/in/yourusername',
-        ru: 'https://linkedin.com/in/yourusername-ru',
       },
-      icon: '💼',
+      iconSvg: `<svg t="1767801835470" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2510" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em"><path d="M664.250054 368.541681c10.015098 0 19.892049 0.732687 29.67281 1.795902-26.647917-122.810047-159.358451-214.077703-310.826188-214.077703-169.353083 0-308.085774 114.232694-308.085774 259.274068 0 83.708494 46.165436 152.460344 123.281791 205.78483l-30.80868 91.730191 107.688651-53.455469c38.558178 7.53665 69.459978 15.308661 107.924012 15.308661 9.66308 0 19.230993-0.470721 28.752858-1.225921-6.025227-20.36584-9.521864-41.723264-9.521864-63.862493C402.328693 476.632491 517.908058 368.541681 664.250054 368.541681zM498.62897 285.87389c23.200398 0 38.557154 15.120372 38.557154 38.061874 0 22.846334-15.356756 38.156018-38.557154 38.156018-23.107277 0-46.260603-15.309684-46.260603-38.156018C452.368366 300.994262 475.522716 285.87389 498.62897 285.87389zM283.016307 362.090758c-23.107277 0-46.402843-15.309684-46.402843-38.156018 0-22.941502 23.295566-38.061874 46.402843-38.061874 23.081695 0 38.46301 15.120372 38.46301 38.061874C321.479317 346.782098 306.098002 362.090758 283.016307 362.090758zM945.448458 606.151333c0-121.888048-123.258255-221.236753-261.683954-221.236753-146.57838 0-262.015505 99.348706-262.015505 221.236753 0 122.06508 115.437126 221.200938 262.015505 221.200938 30.66644 0 61.617359-7.609305 92.423993-15.262612l84.513836 45.786813-23.178909-76.17082C899.379213 735.776599 945.448458 674.90216 945.448458 606.151333zM598.803483 567.994292c-15.332197 0-30.807656-15.096836-30.807656-30.501688 0-15.190981 15.47546-30.477129 30.807656-30.477129 23.295566 0 38.558178 15.286148 38.558178 30.477129C637.361661 552.897456 622.099049 567.994292 598.803483 567.994292zM768.25071 567.994292c-15.213493 0-30.594809-15.096836-30.594809-30.501688 0-15.190981 15.381315-30.477129 30.594809-30.477129 23.107277 0 38.558178 15.286148 38.558178 30.477129C806.808888 552.897456 791.357987 567.994292 768.25071 567.994292z" fill="currentColor" p-id="2511"></path></svg>`,
     },
     {
-      id: 'telegram',
+      id: '抖音',
       label: {
-        zh: 'Telegram',
-        en: 'Telegram',
-        ru: 'Telegram',
+        zh: '抖音',
       },
       url: {
-        zh: 'https://t.me/yourusername',
-        en: 'https://t.me/yourusername',
-        ru: 'https://t.me/yourusername-ru',
+        zh: 'https://v.douyin.com/sRkFTj97ULg/',
       },
-      icon: '✈️',
+      iconSvg: `<svg t="1767801863068" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4514" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em"><path d="M937.4 423.9c-84 0-165.7-27.3-232.9-77.8v352.3c0 179.9-138.6 325.6-309.6 325.6S85.3 878.3 85.3 698.4c0-179.9 138.6-325.6 309.6-325.6 17.1 0 33.7 1.5 49.9 4.3v186.6c-15.5-6.1-32-9.2-48.6-9.2-76.3 0-138.2 65-138.2 145.3 0 80.2 61.9 145.3 138.2 145.3 76.2 0 138.1-65.1 138.1-145.3V0H707c0 134.5 103.7 243.5 231.6 243.5v180.3l-1.2 0.1" p-id="4515" fill="currentColor"></path></svg>`,
     },
     {
-      id: 'tiktok',
+      id: 'bilibili',
       label: {
-        zh: 'TikTok',
-        en: 'TikTok',
-        ru: 'TikTok',
+        zh: 'bilibili',
       },
       url: {
-        zh: 'https://www.tiktok.com/@yourusername',
-        en: 'https://www.tiktok.com/@yourusername',
-        ru: 'https://www.tiktok.com/@yourusername-ru',
+        zh: 'https://b23.tv/j2UzkiK',
       },
-      icon: '🎵',
+      iconSvg: `<svg t="1767801884678" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5517" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em"><path d="M306.005333 117.632L444.330667 256h135.296l138.368-138.325333a42.666667 42.666667 0 1 1 60.373333 60.373333l-78.037333 77.952L789.333333 256A149.333333 149.333333 0 0 1 938.666667 405.333333v341.333334a149.333333 149.333333 0 0 1-149.333334 149.333333h-554.666666A149.333333 149.333333 0 0 1 85.333333 746.666667v-341.333334A149.333333 149.333333 0 0 1 234.666667 256h88.96L245.632 177.962667a42.666667 42.666667 0 0 1 60.373333-60.373334zM789.333333 341.333333h-554.666666a64 64 0 0 0-63.701334 57.856L170.666667 405.333333v341.333334a64 64 0 0 0 57.856 63.701333L234.666667 810.666667h554.666666a64 64 0 0 0 63.701334-57.813334L853.333333 746.666667v-341.333334A64 64 0 0 0 789.333333 341.333333zM341.333333 469.333333a42.666667 42.666667 0 0 1 42.666667 42.666667v85.333333a42.666667 42.666667 0 1 1-85.333333 0v-85.333333a42.666667 42.666667 0 0 1 42.666666-42.666667z m341.333334 0a42.666667 42.666667 0 0 1 42.666666 42.666667v85.333333a42.666667 42.666667 0 1 1-85.333333 0v-85.333333a42.666667 42.666667 0 0 1 42.666667-42.666667z" p-id="5518" fill="currentColor"></path></svg>`,
     },
     {
-      id: 'instagram',
+      id: 'Email',
       label: {
-        zh: 'Instagram',
-        en: 'Instagram',
-        ru: 'Instagram',
+        zh: 'Email',
       },
       url: {
-        zh: 'https://www.instagram.com/yourusername/',
-        en: 'https://www.instagram.com/yourusername/',
-        ru: 'https://www.instagram.com/yourusername-ru/',
+        zh: 'mailto:S@gitsay.com',
       },
-      icon: '📸',
-    },
-    {
-      id: 'youtube',
-      label: {
-        zh: 'YouTube',
-        en: 'YouTube',
-        ru: 'YouTube',
-      },
-      url: {
-        zh: 'https://www.youtube.com/@yourusername',
-        en: 'https://www.youtube.com/@yourusername',
-        ru: 'https://www.youtube.com/@yourusername-ru',
-      },
-      icon: '▶️',
-    },
-    {
-      id: 'twitch',
-      label: {
-        zh: 'Twitch',
-        en: 'Twitch',
-        ru: 'Twitch',
-      },
-      url: {
-        zh: 'https://www.twitch.tv/yourusername',
-        en: 'https://www.twitch.tv/yourusername',
-        ru: 'https://www.twitch.tv/yourusername-ru',
-      },
-      icon: '🎮',
+      iconSvg: `<svg t="1767801903874" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6522" xmlns:xlink="http://www.w3.org/1999/xlink" width="1em" height="1em"><path d="M838.954667 234.666667H170.666667c-3.626667 0-7.168 0.448-10.56 1.322666l323.690666 323.669334a21.333333 21.333333 0 0 0 30.165334 0L838.954667 234.666667z m46.144 14.186666l-260.693334 260.693334 262.933334 262.912c5.44-7.168 8.661333-16.106667 8.661333-25.792V277.333333c0-10.944-4.117333-20.906667-10.88-28.48zM843.861333 789.333333l-249.6-249.621333-50.133333 50.133333a64 64 0 0 1-90.517333 0l-50.112-50.133333L156.373333 786.88c4.48 1.578667 9.28 2.453333 14.314667 2.453333h673.194667zM128.661333 754.218667L373.333333 509.525333 129.578667 265.813333A42.709333 42.709333 0 0 0 128 277.333333v469.333334c0 2.56 0.213333 5.098667 0.661333 7.552zM170.666667 192h682.666666a85.333333 85.333333 0 0 1 85.333334 85.333333v469.333334a85.333333 85.333333 0 0 1-85.333334 85.333333H170.666667a85.333333 85.333333 0 0 1-85.333334-85.333333V277.333333a85.333333 85.333333 0 0 1 85.333334-85.333333z" fill="currentColor" p-id="6523"></path></svg>`,
     },
   ],
 
@@ -167,9 +107,7 @@ const siteConfig: SiteConfig = {
       id: 'morethan-log-astro',
       url: 'https://github.com/JustSereja/morethan-log-astro',
       label: {
-        zh: 'Morethan-Log Astro 版',
-        en: 'Morethan-Log for Astro',
-        ru: 'Morethan-Log для Astro',
+        zh: '码言-GitSay Astro 版',
       },
       iconSvg: `<svg
   stroke="currentColor"
@@ -193,13 +131,9 @@ const siteConfig: SiteConfig = {
       icon: '💻',
       label: {
         zh: '博客',
-        en: 'Blog',
-        ru: 'Блог',
       },
       description: {
         zh: '个人想法、经验和见解',
-        en: 'Personal thoughts, experiences, and insights from my journey',
-        ru: 'Личные мысли, опыт и идеи из моего путешествия',
       },
     },
     technology: {
@@ -208,13 +142,9 @@ const siteConfig: SiteConfig = {
       icon: '🚀',
       label: {
         zh: '技术',
-        en: 'Technology',
-        ru: 'Технологии',
       },
       description: {
         zh: '深入探讨 Web 开发、工具和最佳实践',
-        en: 'Deep dives into web development, tools, and best practices',
-        ru: 'Глубокое погружение в веб-разработку, инструменты и лучшие практики',
       },
     },
     projects: {
@@ -223,13 +153,9 @@ const siteConfig: SiteConfig = {
       icon: '🛠️',
       label: {
         zh: '项目',
-        en: 'Projects',
-        ru: 'Проекты',
       },
       description: {
         zh: '我的作品和开源贡献展示',
-        en: 'Showcase of my work and open-source contributions',
-        ru: 'Витрина моих работ и вклада в открытый исходный код',
       },
     },
   },
@@ -269,32 +195,6 @@ const siteConfig: SiteConfig = {
   dateFormats: {
     zh: {
       locale: 'zh-CN',
-      options: {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      },
-      compactOptions: {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      },
-    },
-    en: {
-      locale: 'en-US',
-      options: {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      },
-      compactOptions: {
-        year: '2-digit',
-        month: 'short',
-        day: 'numeric',
-      },
-    },
-    ru: {
-      locale: 'ru-RU',
       options: {
         year: 'numeric',
         month: 'long',

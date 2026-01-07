@@ -83,7 +83,7 @@ const getCategoryDescription = (
 const localeOverrides: Partial<Record<LocaleCode, Partial<UiDictionary>>> = {
   zh: {
     'ui.categories': '分类',
-    'ui.profile': '个人资料',
+    'ui.profile': '关于网站',
     'ui.projects': '项目',
     'ui.projects_title': '项目',
     'ui.projects_description': '精选项目和实验',

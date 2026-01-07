@@ -1,31 +1,57 @@
 :root {
-    --main-bg: #f2f2f2; /* Light gray instead of dark */
-    --secondary-bg: #e5e5e5; /* Slightly darker than background, but lighter than in dark theme */
-    --context-bg: #ffffff; /* White for context elements */
-    --border-color: #dcdcdc; /* Light gray border */
-    --main-color: #333333; /* Dark gray for text, softer than black */
-    --secondary-color: #505050; /* Medium gray for secondary text */
-    --text-color: #666666; /* Light gray for regular text */
-    --text-color-highlight: #888888; /* Even lighter gray for highlighted text */
-    --highlight-color: #eb861d; /* #ffab53; /* Warm orange instead of bright red */
-    --placeholder: #a0a0a0; /* Standard gray for placeholders */
-    --tag-bg: #ededed; /* Light gray tag background */
-    --category-bg: #ffd5ff; /* Light version of purple */
-    --category-bg2: #a6e6fd; /* Light version of blue */
-    --comment-color: #606060; /* Dark gray for comments */
-    --comment-border-color: #cccccc; /* Light gray comment border */
-    --border-right-color: #ebebeb; /* Light gray for right borders */
-    --active-tab-bg: #f0f0f0; /* Light gray for active tabs */
-    --reactions-color: #797979; /* Gray for reactions */
-    --btn-color: #626262; /* Gray for button text */
-    --btn-bgc: #e8e8e8; /* Light gray button background */
-    --tab-bdc: #c0c0c0; /* Light gray tab border */
-    --tab-color: #454545; /* Gray for tab text */
-    --btn-bdc: #bebebe; /* Light gray button border */
-    --reactions-color-hover: #505050; /* Dark gray for reaction hover */
-    --hr-color: #d6d6d6; /* Light gray horizontal line color */
-    --href-color: inherit; /* Gray for links */
-    
+    --main-bg: #f2f2f2;
+    /* Light gray instead of dark */
+    --secondary-bg: #e5e5e5;
+    /* Slightly darker than background, but lighter than in dark theme */
+    --context-bg: #ffffff;
+    /* White for context elements */
+    --border-color: #dcdcdc;
+    /* Light gray border */
+    --main-color: #333333;
+    /* Dark gray for text, softer than black */
+    --secondary-color: #505050;
+    /* Medium gray for secondary text */
+    --text-color: #666666;
+    /* Light gray for regular text */
+    --text-color-highlight: #888888;
+    /* Even lighter gray for highlighted text */
+    --highlight-color: #eb861d;
+    /* #ffab53; /* Warm orange instead of bright red */
+    --placeholder: #a0a0a0;
+    /* Standard gray for placeholders */
+    --tag-bg: #ededed;
+    /* Light gray tag background */
+    --category-bg: #ffd5ff;
+    /* Light version of purple */
+    --category-bg2: #a6e6fd;
+    /* Light version of blue */
+    --comment-color: #606060;
+    /* Dark gray for comments */
+    --comment-border-color: #cccccc;
+    /* Light gray comment border */
+    --border-right-color: #ebebeb;
+    /* Light gray for right borders */
+    --active-tab-bg: #f0f0f0;
+    /* Light gray for active tabs */
+    --reactions-color: #797979;
+    /* Gray for reactions */
+    --btn-color: #626262;
+    /* Gray for button text */
+    --btn-bgc: #e8e8e8;
+    /* Light gray button background */
+    --tab-bdc: #c0c0c0;
+    /* Light gray tab border */
+    --tab-color: #454545;
+    /* Gray for tab text */
+    --btn-bdc: #bebebe;
+    /* Light gray button border */
+    --reactions-color-hover: #505050;
+    /* Dark gray for reaction hover */
+    --hr-color: #d6d6d6;
+    /* Light gray horizontal line color */
+    --href-color: inherit;
+    /* Gray for links */
+
     /* Code block theme - Light mode */
     --code-block-bg: #f8f8f8;
     --code-block-border: #e1e4e8;
@@ -72,8 +98,8 @@ html.dark-mode {
     --comment-color: #c0c0c0;
     --tab-color: silver;
     --hr-color: #343434;
-    --href-color: hsla(0,0%,100%,.9);
-    
+    --href-color: hsla(0, 0%, 100%, .9);
+
     /* Code block theme - Dark mode */
     --code-block-bg: #1e1e1e;
     --code-block-border: rgba(255, 255, 255, 0.1);
@@ -409,8 +435,8 @@ h1,
     color: var(--main-color);
 }
 
-* + h1,
-* + .h1 {
+*+h1,
+*+.h1 {
     margin-top: 1.1em;
 }
 
@@ -424,8 +450,8 @@ h2,
     color: var(--main-color);
 }
 
-* + h2,
-* + .h2 {
+*+h2,
+*+.h2 {
     margin-top: 1.1em;
 }
 
@@ -441,8 +467,8 @@ h3,
     color: var(--main-color);
 }
 
-* + h3,
-* + .h3 {
+*+h3,
+*+.h3 {
     margin-top: 1.5em;
 }
 
@@ -582,17 +608,21 @@ a {
 
 .text-block p {
     margin-bottom: 20px;
-    line-height: 1.6; /* Improve readability */
+    line-height: 1.6;
+    /* Improve readability */
 }
 
 .text-block blockquote {
     font-style: italic;
-    color: var(--comment-color); /* Slightly gray color for quotes */
+    color: var(--comment-color);
+    /* Slightly gray color for quotes */
     margin-bottom: 20px;
     padding-left: 20px;
     border-left: 5px solid var(--highlight-color);
-    word-break: break-word; /* Added to prevent overflow */
-    overflow-wrap: break-word; /* Added to prevent overflow */
+    word-break: break-word;
+    /* Added to prevent overflow */
+    overflow-wrap: break-word;
+    /* Added to prevent overflow */
 }
 
 .text-block img {
@@ -625,30 +655,36 @@ a {
 
 .text-block ul {
     margin-bottom: 20px;
-    padding-left: 20px; /* Added for indentation */
+    padding-left: 20px;
+    /* Added for indentation */
 }
 
 .text-block ul li {
     position: relative;
-    list-style-type: disc; /* Use standard discs */
-    margin-bottom: 10px; /* Reduce spacing for better compactness */
+    list-style-type: disc;
+    /* Use standard discs */
+    margin-bottom: 10px;
+    /* Reduce spacing for better compactness */
 }
 
 .text-block ol {
     list-style: none;
-    padding-left: 30px; /* Added for indentation */
+    padding-left: 30px;
+    /* Added for indentation */
     counter-reset: li;
 }
 
 .text-block ol li {
     position: relative;
-    margin-bottom: 10px; /* Similar to unordered lists */
+    margin-bottom: 10px;
+    /* Similar to unordered lists */
 }
 
 .text-block ol li:before {
     content: counters(li, '.') '. ';
     counter-increment: li;
-    color: var(--main-color); /* Improved number display */
+    color: var(--main-color);
+    /* Improved number display */
 }
 
 .text-block code {
@@ -731,12 +767,17 @@ a {
     user-select: none;
 }
 
-.text-block > *:last-child {
+.text-block>*:last-child {
     margin-bottom: 0;
 }
 
 /* Headers from H1 to H6 */
-.text-block h1, .text-block h2, .text-block h3, .text-block h4, .text-block h5, .text-block h6 {
+.text-block h1,
+.text-block h2,
+.text-block h3,
+.text-block h4,
+.text-block h5,
+.text-block h6 {
     margin-top: 20px;
     margin-bottom: 10px;
     /*font-weight: bold;*/
@@ -771,7 +812,8 @@ a {
 .text-block hr {
     border: 0;
     height: 1px;
-    background-color: var(--hr-color); /* Use color from your palette */
+    background-color: var(--hr-color);
+    /* Use color from your palette */
     margin: 24px 0;
 }
 
@@ -1127,16 +1169,16 @@ a {
     .header__link--desktop {
         display: none;
     }
-    
+
     .header__menu-toggle {
         display: block;
     }
-    
+
     /* Adjust spacing on mobile */
     .header__search-toggle {
         margin-right: 0.25rem;
     }
-    
+
     .header__theme-mode-switcher {
         margin-left: 0;
     }
@@ -1151,20 +1193,21 @@ a {
     gap: 1.5rem;
 }
 
-.aside {
-    height: calc(100vh - 73px);
-}
-
 .aside--left {
     position: sticky;
-    top: 63px;
+    top: 95px;
+    align-self: start;
 
     display: none;
-    overflow: scroll;
 
     grid-column: span 2/span 2;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+}
+
+/* 当侧边栏内容比视口高时，让它粘在底部 */
+.aside--left.sticky-bottom {
+    top: auto;
+    bottom: 10px;
+    align-self: end;
 }
 
 .content-center {
@@ -1173,15 +1216,19 @@ a {
 
 .sidebar {
     position: sticky;
-    top: 63px;
+    top: 95px;
+    align-self: start;
 
     display: none;
-    overflow: scroll;
 
-    height: calc(100vh - 73px);
-    scrollbar-width: none;
-    -ms-overflow-style: none;
     grid-column: span 3/span 3;
+}
+
+/* 当侧边栏内容比视口高时，让它粘在底部 */
+.sidebar.sticky-bottom {
+    top: auto;
+    bottom: 10px;
+    align-self: end;
 }
 
 .tags--desktop {
@@ -1755,20 +1802,20 @@ a {
     gap: .75rem;
 }
 
-.article__nav-top > * {
+.article__nav-top>* {
     min-width: 0;
 }
 
-.article__nav-top > *:nth-child(1) {
+.article__nav-top>*:nth-child(1) {
     justify-self: flex-start;
     text-align: left;
 }
 
-.article__nav-top > *:nth-child(2) {
+.article__nav-top>*:nth-child(2) {
     text-align: center;
 }
 
-.article__nav-top > *:nth-child(3) {
+.article__nav-top>*:nth-child(3) {
     justify-self: flex-end;
     text-align: right;
 }
@@ -2237,11 +2284,25 @@ a {
 }
 
 @keyframes heartbeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.1); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.1); }
-    70% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.1);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(1);
+    }
 }
 
 @media screen and (min-width: 544px) {
@@ -2395,7 +2456,8 @@ a {
 
 .pagination {
     display: flex;
-    justify-content: space-between; /* Elements align with equal spacing between them */
+    justify-content: space-between;
+    /* Elements align with equal spacing between them */
     align-items: center;
     padding: 1rem 0;
     margin: 20px 0;
@@ -2431,7 +2493,8 @@ a {
 }
 
 .pagination__text {
-    flex-grow: 1; /* Takes all available space in the middle */
+    flex-grow: 1;
+    /* Takes all available space in the middle */
     text-align: center;
 }
 
@@ -2482,41 +2545,62 @@ a {
 
 /* Scrollable table wrapper */
 .table-responsive {
-    overflow-x: auto; /* Enables horizontal scrolling */
-    margin: 20px 0; /* Vertical spacing around the scrollable area */
+    overflow-x: auto;
+    /* Enables horizontal scrolling */
+    margin: 20px 0;
+    /* Vertical spacing around the scrollable area */
 }
 
 /* Table styles */
 table {
-    width: 100%; /* Full-width tables */
-    margin-top: 20px; /* Space above the table */
-    margin-bottom: 20px; /* Space below the table */
-    background-color: var(--context-bg); /* Background color for readability */
-    border-collapse: separate; /* Separate borders for better rounding */
-    border-spacing: 0; /* No extra spacing between cells */
-    text-align: left; /* Aligns text to the left */
-    border-radius: 10px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure content fits within the rounded corners */
-    word-break: break-word; /* Prevents overflow of text */
+    width: 100%;
+    /* Full-width tables */
+    margin-top: 20px;
+    /* Space above the table */
+    margin-bottom: 20px;
+    /* Space below the table */
+    background-color: var(--context-bg);
+    /* Background color for readability */
+    border-collapse: separate;
+    /* Separate borders for better rounding */
+    border-spacing: 0;
+    /* No extra spacing between cells */
+    text-align: left;
+    /* Aligns text to the left */
+    border-radius: 10px;
+    /* Rounded corners for the table */
+    overflow: hidden;
+    /* Ensure content fits within the rounded corners */
+    word-break: break-word;
+    /* Prevents overflow of text */
 }
 
 th,
 td {
-    padding: 12px; /* Padding inside cells */
-    border: 1px solid var(--border-color); /* Border color from your palette */
-    text-align: left; /* Ensures text is left-aligned */
-    vertical-align: top; /* Aligns content to the top of the cell */
-    word-break: break-word; /* Prevents overflow of text */
+    padding: 12px;
+    /* Padding inside cells */
+    border: 1px solid var(--border-color);
+    /* Border color from your palette */
+    text-align: left;
+    /* Ensures text is left-aligned */
+    vertical-align: top;
+    /* Aligns content to the top of the cell */
+    word-break: break-word;
+    /* Prevents overflow of text */
 }
 
 th {
-    background-color: var(--secondary-bg); /* Background for headers for distinction */
-    color: var(--main-color); /* Text color for headers */
-    font-weight: bold; /* Makes header text bold */
+    background-color: var(--secondary-bg);
+    /* Background for headers for distinction */
+    color: var(--main-color);
+    /* Text color for headers */
+    font-weight: bold;
+    /* Makes header text bold */
 }
 
 tr:nth-child(odd) {
-    background-color: var(--tag-bg); /* Alternating row background */
+    background-color: var(--tag-bg);
+    /* Alternating row background */
 }
 
 tr:hover {
@@ -2526,13 +2610,17 @@ tr:hover {
 
 /* Specific link styles within table cells */
 tr td a {
-    color: var(--comment-color); /* Link color */
-    text-decoration: none; /* No underline for links */
+    color: var(--comment-color);
+    /* Link color */
+    text-decoration: none;
+    /* No underline for links */
 }
 
 tr:hover td a {
-    color: var(--main-color); /* Link color on hover */
-    text-decoration: none; /* Still no underline on hover */
+    color: var(--main-color);
+    /* Link color on hover */
+    text-decoration: none;
+    /* Still no underline on hover */
 }
 
 .text-block tr td a {
@@ -2542,34 +2630,45 @@ tr:hover td a {
 }
 
 caption {
-    margin-top: 10px; /* Space above the caption */
-    margin-bottom: 5px; /* Larger text for emphasis */
-    text-align: center; /* Centers caption text */
-    color: var(--main-color); /* Text color */
+    margin-top: 10px;
+    /* Space above the caption */
+    margin-bottom: 5px;
+    /* Larger text for emphasis */
+    text-align: center;
+    /* Centers caption text */
+    color: var(--main-color);
+    /* Text color */
 }
 
 /* Sticky priority column */
 .priority-column {
-    position: -webkit-sticky; /* For Safari */
+    position: -webkit-sticky;
+    /* For Safari */
     position: sticky;
     left: 0;
-    background-color: var(--context-bg); /* Ensures background remains */
+    background-color: var(--context-bg);
+    /* Ensures background remains */
     z-index: 1;
-    min-width: 150px; /* Ensures the priority column is wide enough */
-    max-width: 150px; /* Limits the width of the priority column */
+    min-width: 150px;
+    /* Ensures the priority column is wide enough */
+    max-width: 150px;
+    /* Limits the width of the priority column */
     word-wrap: break-word;
 }
 
 /* Scrollable table on smaller screens */
 @media (max-width: 768px) {
+
     th,
     td {
-        padding: 8px; /* Smaller padding in smaller screens */
+        padding: 8px;
+        /* Smaller padding in smaller screens */
     }
 
     table {
         display: block;
-        overflow-x: auto; /* Enables horizontal scrolling */
+        overflow-x: auto;
+        /* Enables horizontal scrolling */
     }
 }
 
@@ -2754,4 +2853,73 @@ html:not(.dark-mode) .hljs-params {
 .text-block pre code {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+/* Site Footer Styles */
+.site-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 2rem auto 0;
+    padding: 0 1rem 2rem;
+    max-width: var(--layout-max-width);
+}
+
+.site-footer__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 2rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    background-color: var(--context-bg);
+    box-shadow: var(--shadow-card);
+    max-width: var(--layout-max-width);
+    width: 100%;
+}
+
+.site-footer__line {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-color-highlight);
+    margin: 0.25rem 0;
+}
+
+.site-footer__links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.site-footer__beian {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.site-footer__icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.site-footer__beian-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.site-footer__separator {
+    color: var(--text-color-highlight);
+}
+
+.site-footer__content a {
+    color: #1677FF;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.site-footer__content a:hover {
+    color: #4096FF;
+    text-decoration: underline;
 }

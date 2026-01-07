@@ -1,8 +1,8 @@
 ---
-import Layout from './Layout.astro';
-import AIWarning from '@components/AIWarning.astro';
-import FloatingTOC from '@components/FloatingTOC.astro';
-import siteConfig from '@config/site';
+import Layout from "./Layout.astro";
+import AIWarning from "@components/AIWarning.astro";
+import FloatingTOC from "@components/FloatingTOC.astro";
+import siteConfig from "@config/site";
 import {
   type PostEntry,
   getCategoryConfig,
@@ -14,10 +14,10 @@ import {
   getPostCategory,
   getPageByTranslationKey,
   getPagePermalink,
-} from '@lib/content';
-import { formatDate } from '@lib/format';
-import { DEFAULT_LOCALE } from '@lib/language';
-import { useTranslations, useTranslatedPath } from '@i18n/utils';
+} from "@lib/content";
+import { formatDate } from "@lib/format";
+import { DEFAULT_LOCALE } from "@lib/language";
+import { useTranslations, useTranslatedPath } from "@i18n/utils";
 
 const {
   entry,
@@ -33,20 +33,20 @@ const lang = getPostLanguage(entry);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const aboutHref = await (async () => {
-  const localized = await getPageByTranslationKey('about', lang);
+  const localized = await getPageByTranslationKey("about", lang);
   if (localized) {
     return getPagePermalink(localized);
   }
 
-  const fallback = await getPageByTranslationKey('about', DEFAULT_LOCALE);
+  const fallback = await getPageByTranslationKey("about", DEFAULT_LOCALE);
   if (fallback) {
     return getPagePermalink(fallback);
   }
 
-  return translatePath('/about');
+  return translatePath("/about");
 })();
 
-const publishedDate = formatDate(entry.data.date, lang, 'compact');
+const publishedDate = formatDate(entry.data.date, lang, "compact");
 const heroImage = getPostImage(entry);
 const categoryKey = getPostCategory(entry);
 const categoryConfig = getCategoryConfig(categoryKey);
@@ -90,12 +90,13 @@ const alternates = (() => {
 
   const defaultHref = linkMap.get(DEFAULT_LOCALE) ?? linkMap.get(lang);
   if (defaultHref) {
-    entries.push({ lang: 'x-default', url: defaultHref });
+    entries.push({ lang: "x-default", url: defaultHref });
   }
 
   return entries;
 })();
 ---
+
 <Layout
   title={entry.data.title}
   description={entry.data.description}
@@ -119,32 +120,36 @@ const alternates = (() => {
                 <div class="author__photo">
                   <a href={aboutHref}>
                     <picture>
-                      <img src={siteConfig.author.avatar} alt={t('name')} />
+                      <img src={siteConfig.author.avatar} alt={t("name")} />
                     </picture>
                   </a>
                 </div>
 
                 <div class="author__name">
                   <a href={aboutHref} class="author__name">
-                    {t('name')}
+                    {t("name")}
                   </a>
                 </div>
               </div>
 
-              {entry.data.date && (
-                <div class="article__date">{publishedDate}</div>
-              )}
+              {
+                entry.data.date && (
+                  <div class="article__date">{publishedDate}</div>
+                )
+              }
 
-              {categoryLabel && (
-                <div>
-                  <a
-                    class="category__item category__item--light-blue"
-                    href={translatePath(getCategoryPath(categoryKey))}
-                  >
-                    {categoryConfig?.icon} {categoryLabel}
-                  </a>
-                </div>
-              )}
+              {
+                categoryLabel && (
+                  <div>
+                    <a
+                      class="category__item category__item--light-blue"
+                      href={translatePath(getCategoryPath(categoryKey))}
+                    >
+                      {categoryConfig?.icon} {categoryLabel}
+                    </a>
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
@@ -155,27 +160,57 @@ const alternates = (() => {
           <Content />
         </div>
 
-        {siteConfig.features.postNavigation && (
-          <div class="post-navigation">
-            <a href={translatePath('/')}>← {t('ui.back')}</a>
-            <a href="#" class="scroll-top">↑ {t('ui.top')}</a>
+        <div class="article-info-box">
+          <div class="info-title">{entry.data.title}</div>
+          <a class="info-url" href={Astro.url.href}>{Astro.url.href}</a>
+          <div class="info-meta">
+            <div class="meta-item">
+              <span class="meta-label">作者</span>
+              <span class="meta-value">{authorName}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">发布于</span>
+              <span class="meta-value">{publishedDate}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">许可协议</span>
+              <a
+                class="meta-value info-link"
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                target="_blank"
+                rel="noopener noreferrer">CC BY-NC-SA 4.0</a
+              >
+            </div>
           </div>
-        )}
+        </div>
+
+        {
+          siteConfig.features.postNavigation && (
+            <div class="post-navigation">
+              <a href={translatePath("/")}>← {t("ui.back")}</a>
+              <a href="#" class="scroll-top">
+                ↑ {t("ui.top")}
+              </a>
+            </div>
+          )
+        }
       </article>
     </div>
   </div>
 
   {headings.length > 0 && <FloatingTOC headings={headings} lang={lang} />}
 
-  {siteConfig.features.imageLightbox && (
-    <>
-      <div id="lightbox" class="lightbox" data-site-url={siteConfig.siteUrl}>
-        <span class="close">&times;</span>
-        <img class="lightbox-content" />
-      </div>
-      <script type="module" src="/js/lightbox.js"></script>
-    </>
-  )}
+  {
+    siteConfig.features.imageLightbox && (
+      <>
+        <div id="lightbox" class="lightbox" data-site-url={siteConfig.siteUrl}>
+          <span class="close">&times;</span>
+          <img class="lightbox-content" />
+        </div>
+        <script type="module" src="/js/lightbox.js" />
+      </>
+    )
+  }
 
   <style>
     .lightbox {
@@ -208,6 +243,95 @@ const alternates = (() => {
       font-size: 40px;
       font-weight: bold;
       cursor: pointer;
+    }
+
+    .article-info-box {
+      background-color: var(--secondary-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 3rem 0;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .article-info-box::after {
+      content: "CC";
+      position: absolute;
+      right: 0.1em;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 6rem;
+      font-weight: 700;
+      color: var(--main-color);
+      opacity: 0.05;
+      pointer-events: none;
+      font-family: sans-serif;
+      line-height: 1;
+    }
+
+    .info-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--main-color);
+    }
+
+    .info-url {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--highlight-color);
+      margin-bottom: 1.5rem;
+      word-break: break-all;
+      text-decoration: none;
+    }
+
+    .info-url:hover {
+      text-decoration: underline;
+    }
+
+    .info-meta {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .meta-label {
+      font-size: 0.85rem;
+      color: var(
+        --text-color
+      ); /* Corrected from secondary-color which is for bg */
+      font-weight: 500;
+    }
+
+    .meta-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--main-color);
+    }
+
+    .info-link {
+      color: var(--highlight-color);
+      text-decoration: none;
+    }
+
+    .info-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .info-meta {
+        gap: 1.5rem;
+      }
+      .article-info-box::after {
+        font-size: 4rem;
+      }
     }
   </style>
 </Layout>

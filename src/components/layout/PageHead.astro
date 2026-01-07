@@ -114,6 +114,7 @@ const modifiedTime = modifiedAt ?? publishedTime;
     )
   }
   <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   {
     enableCodeHighlight && (
       <script
@@ -206,4 +207,9 @@ gtag('config', '${siteConfig.seo.googleAnalytics}');`}
       </>
     )
   }
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
 </head>
