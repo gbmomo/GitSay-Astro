@@ -4,9 +4,9 @@
 
 > **致谢 / Credits**
 >
-> 本项目是基于 [morethan-log-astro](https://github.com/JustSereja/morethan-log-astro) 进行的二次开发。感谢原作者 [JustSereja](https://github.com/JustSereja) 提供的优秀基础。
+> 本项目使用的模板是基于 [morethan-log-astro](https://github.com/JustSereja/morethan-log-astro) 进行的二次开发。感谢原作者 [JustSereja](https://github.com/JustSereja) 提供的优秀基础。
 >
-> 原始项目地址: https://github.com/JustSereja/morethan-log-astro
+> 原始模板项目地址: https://github.com/JustSereja/morethan-log-astro
 
 ## 🌟 特性
 
