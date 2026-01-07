@@ -1,0 +1,24 @@
+---
+import NavLinks from "@components/layout/NavLinks.astro";
+
+type NavItem = {
+  id: string;
+  href: string;
+  label: string;
+};
+
+interface MobileMenuProps {
+  lang: string;
+  navItems: NavItem[];
+}
+
+const { lang, navItems }: MobileMenuProps = Astro.props;
+---
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="cont">
+    <nav class="mobile-menu__nav">
+      <NavLinks navItems={navItems} variant="mobile" />
+    </nav>
+  </div>
+</div>
