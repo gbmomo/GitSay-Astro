@@ -37,7 +37,7 @@
 1. 下载或克隆本项目：
 
 ```bash
-git clone https://github.com/gbmomo/GitSay-Astro
+git clone https://github.com/gbmomo/GitSay-Astro.git
 cd GitSay-Astro
 ```
 
