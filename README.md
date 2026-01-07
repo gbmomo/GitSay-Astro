@@ -37,8 +37,8 @@
 1. 下载或克隆本项目：
 
 ```bash
-git clone <your-repo-url>
-cd gitsay
+git clone https://github.com/gbmomo/GitSay-Astro
+cd GitSay-Astro
 ```
 
 2. 安装依赖：
