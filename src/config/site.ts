@@ -104,8 +104,8 @@ const siteConfig: SiteConfig = {
 
   projects: [
     {
-      id: 'morethan-log-astro',
-      url: 'https://github.com/JustSereja/morethan-log-astro',
+      id: 'gitsay-astro',
+      url: 'https://github.com/gbmomo/GitSay-Astro',
       label: {
         zh: '码言-GitSay Astro 版',
       },

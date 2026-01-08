@@ -1,74 +1,74 @@
-# Contributing to morethan-log-astro
+# 贡献指南
 
-Thanks for taking the time to contribute! This template powers production sites, so every improvement helps the community ship faster and more safely.
+感谢你抽出时间为本项目做贡献！每一项改进都能帮助社区更好地使用这个项目。
 
-## Before You Start
+## 开始之前
 
-- Use the latest **Node.js 18 LTS** (or newer) and npm 9+.
-- Fork or clone the repo, then install dependencies:
+- 使用最新的 **Node.js 18 LTS**（或更新版本）和 npm 9+。
+- Fork 或克隆仓库，然后安装依赖：
   ```bash
+  git clone https://github.com/gbmomo/GitSay-Astro.git
+  cd GitSay-Astro
   npm install
   ```
-- When you add or rename content collections, run `npx astro sync` so generated types stay current.
-- The default branch is `main`. Create feature branches from `main` and keep pull requests narrowly scoped when possible.
+- 当你添加或重命名内容集合时，运行 `npx astro sync` 以保持生成的类型同步。
+- 默认分支是 `main`。从 `main` 创建功能分支，并尽可能保持 Pull Request 的范围精简。
 
-## Project Scripts
+## 项目脚本
 
-| Command | What it does |
+| 命令 | 作用 |
 | ------- | ------------- |
-| `npm run dev` | Starts Astro’s dev server and rebuilds the bundled client script (`public/js/main.js`) in watch mode. |
-| `npm run build` | Produces a static build (`dist/`) and formats the output bundle. Run this before opening a PR. |
-| `npm run preview` | Serves the last production build locally. |
-| `npm run client:build` | Bundles client-side scripts once using `scripts/build-client.mjs` (useful for CI). |
-| `npm run client:watch` | Rebuilds the client bundle on file changes. The dev script calls this automatically. |
-| `npm run format:dist` | Re-applies the post-build formatters (HTML/CSS/JS beautify + CSSO minification). |
+| `npm run dev` | 启动 Astro 开发服务器，并在监视模式下重新构建客户端脚本包（`public/js/main.js`）。 |
+| `npm run build` | 生成静态构建（`dist/`）并格式化输出包。在提交 PR 前请先运行此命令。 |
+| `npm run preview` | 本地服务上次的生产构建。 |
+| `npm run client:build` | 使用 `scripts/build-client.mjs` 一次性构建客户端脚本（适用于 CI）。 |
+| `npm run client:watch` | 在文件更改时重新构建客户端包。dev 脚本会自动调用此命令。 |
+| `npm run format:dist` | 重新应用构建后的格式化程序（HTML/CSS/JS 美化 + CSSO 压缩）。 |
 
-We don’t ship a lint step yet—if you add one, document it in the README and scripts table.
+## 报告问题
 
-## Reporting Issues
+- 在开新 Issue 之前，请先搜索[现有 Issue](https://github.com/gbmomo/GitSay-Astro/issues)。
+- 包含简洁的标题、复现步骤、预期行为与实际行为，以及环境详情。
+- 当截图或日志能帮助说明问题时，请附上。
 
-- Search [existing issues](https://github.com/JustSereja/morethan-log-astro/issues) before opening a new one.
-- Include a concise title, reproduction steps, expected vs. actual behaviour, and environment details.
-- Attach screenshots or logs when they clarify the problem.
+## 提出增强建议
 
-## Proposing Enhancements
+- 开一个 Issue 描述使用场景、你想做的更改以及你考虑过的替代方案。
+- 如果你已经有实现方案，请提前说明，以便维护者帮助确定工作范围。
 
-- Open an issue describing the use case, the change you’d like to make, and any alternatives you considered.
-- If you already have an implementation, mention it up front so maintainers can help scope the work.
+## Pull Request 清单
 
-## Pull Request Checklist
+1. Fork 仓库并创建分支（`feature/…`、`fix/…` 等）。
+2. 在有价值的地方进行更改并添加测试。（Astro 内容通常通过 `npm run build` 来验证行为。）
+3. 本地运行 `npm run build` 并确保没有警告或错误。
+4. 当行为或设置发生变化时更新文档——特别是 `README.md`、`PRODUCTION_CHECKLIST.md` 或配置注释。
+5. 遵循描述性的传统提交信息（例如：`feat: 添加新功能`、`fix: 修复某个问题`）。
+6. 向 `main` 提交 Pull Request，填写模板并关联相关 Issue。对于 UI 更改，请附上截图/GIF。
+7. 准备好接受审查反馈；我们重视相互尊重的迭代协作。
 
-1. Fork the repo and create a branch (`feature/…`, `fix/…`, etc.).  
-2. Make your changes along with unit or integration coverage where it adds value. (Astro content typically exercises behaviour via `npm run build`.)  
-3. Run `npm run build` locally and ensure it completes without warnings or errors.  
-4. Update documentation when behaviour or setup changes—particularly `README.md`, `PRODUCTION_CHECKLIST.md`, or configuration comments.  
-5. Follow conventional, descriptive commit messages (e.g., `feat: add fr locale support`).  
-6. Open a pull request against `main`, fill out the template, and link related issues. Include screenshots/gifs for UI changes.  
-7. Be ready for review feedback; we value respectful, iterative collaboration.
+## 代码风格与架构
 
-## Code Style & Architecture
+- 将配置集中在 `src/config/` 中——避免在组件中硬编码字符串。
+- 使用现有的工具模块（`@lib/content`、`@utils/url` 等）而不是重复逻辑。
+- 扩展配置时优先使用 TypeScript 定义的接口（参见 `src/config/types.ts`）。
+- 对于客户端脚本，从 `src/scripts/modules/*` 导出初始化函数，并在 `src/scripts/main.ts` 中注册，以确保热重载行为一致。
+- 添加第三方资源时，优先通过打包器本地托管，而不是新增 CDN 调用。
+- 将组件级的内联脚本/样式限制在它们控制的行为范围内；共享逻辑应放在 `src/scripts` 或 `src/utils` 下的模块中。
 
-- Keep configuration centralized in `src/config/`—avoid hard-coded strings in components.  
-- Use existing utility modules (`@lib/content`, `@utils/url`, etc.) instead of duplicating logic.  
-- Prefer TypeScript-defined interfaces (see `src/config/types.ts`) when expanding config.  
-- For client scripts, export initialization functions from `src/scripts/modules/*` and register them in `src/scripts/main.ts` so hot reloading behaves consistently.  
-- When adding third-party assets, prefer hosting them locally via the bundler instead of new CDN calls.  
-- Limit component-level inline scripts/styles to the behaviour they control; shared logic belongs in modules under `src/scripts` or `src/utils`.
+## 文档
 
-## Documentation
+当你添加或更改功能时，请更新：
 
-This repo ships as a template. When you add or change features, update:
+- `README.md` 提供面向公众的说明。
+- `PRODUCTION_CHECKLIST.md` 让使用者知道需要自定义什么。
+- `CONTRIBUTING.md` 和 `CODE_OF_CONDUCT.md` 如果协作规范发生变化。
 
-- `README.md` for public-facing instructions.
-- `PRODUCTION_CHECKLIST.md` so adopters know what to customize.
-- `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` if collaboration expectations change.
+## 行为准则
 
-## Code of Conduct
+参与本项目需遵守[行为准则](CODE_OF_CONDUCT.md)。请将不可接受的行为报告至 S@gitsay.com。
 
-Participation in this project is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). Please report unacceptable behaviour to demo@morethan-log.com.
+## 获取帮助
 
-## Getting Help
+如果有任何不清楚的地方，请开启讨论或 Issue。我们很乐意澄清期望或一起解决问题。
 
-If something is unclear, open a discussion or issue. We’re happy to clarify expectations or pair on a solution.
-
-Thank you for investing your time in making morethan-log-astro better! Your contributions help everyone launch beautiful Astro blogs faster.***
+感谢你投入时间让码言-GitSay变得更好！

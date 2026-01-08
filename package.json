@@ -1,9 +1,9 @@
 {
-  "name": "morethan-log-astro",
+  "name": "gitsay-astro",
   "type": "module",
   "version": "2.5.1",
-  "description": "A modern, customizable blog template built with Astro - fast, responsive, and multilingual",
-  "author": "Sereja <demo@morethan-log.com>",
+  "description": "码言-GitSay-码上有言，技术有料，一个基于 Astro 构建的现代化、高性能的博客。本项目是基于morethan-log-astro模板进行的二次开发的Astro静态博客。感谢原作者JustSereja提供的优秀基础。",
+  "author": "Goblin_MoMo <S@gitsay.com>",
   "license": "MIT",
   "keywords": [
     "astro",
@@ -19,12 +19,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/JustSereja/morethan-log-astro"
+    "url": "https://github.com/gbmomo/GitSay-Astro"
   },
   "bugs": {
-    "url": "https://github.com/JustSereja/morethan-log-astro/issues"
+    "url": "https://github.com/gbmomo/GitSay-Astro/issues"
   },
-  "homepage": "https://morethan-log-astro.sereja.com",
+  "homepage": "https://www.gitsay.com",
   "scripts": {
     "dev": "run-p client:watch astro:dev",
     "start": "npm run dev",

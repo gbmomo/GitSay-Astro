@@ -17,9 +17,7 @@ export async function GET() {
     theme_color: '#ffffff',
     lang: defaultLang,
     icons: [
-      { src: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { src: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' },
+      { src: '/favicon.png', sizes: 'any', type: 'image/png' },
     ],
   };
 
