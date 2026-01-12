@@ -36,10 +36,11 @@ const {
         showSearch && (
           <button
             type="button"
-            class="header__search-toggle"
+            class="header__nav-btn header__search-toggle"
             aria-label="Toggle search"
           >
-            <span class="header__search-icon">🔎</span>
+            <span class="header__btn-icon">🔎</span>
+            <span class="header__btn-text">搜索</span>
           </button>
         )
       }
@@ -47,11 +48,12 @@ const {
         enableDarkMode && (
           <button
             type="button"
-            class="header__theme-mode-switcher theme-mode-switcher"
+            class="header__nav-btn header__theme-mode-switcher theme-mode-switcher"
             data-mode="light"
           >
             <span class="theme-mode-switcher__icon icon-dark">🌙</span>
             <span class="theme-mode-switcher__icon icon-light">☀️</span>
+            <span class="header__btn-text">主题</span>
           </button>
         )
       }
