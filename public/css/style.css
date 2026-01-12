@@ -1887,9 +1887,15 @@ a {
 
 .post-navigation a {
     color: currentColor;
+    background-color: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
 }
 
 .post-navigation a:hover {
+    background-color: var(--context-bg);
     color: var(--main-color);
 }
 

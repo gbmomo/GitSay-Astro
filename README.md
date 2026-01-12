@@ -2,7 +2,7 @@
 
 一个基于 Astro 构建的现代化、高性能的博客。针对中文环境深度定制，响应式设计，开箱即用。
 
-🌐 **[在线演示](https://www.gitsay.com/)**
+🌐 **[主站地址](https://www.gitsay.com/)**
 
 ![码言-GitSay 截图](screenshot.png)
 
