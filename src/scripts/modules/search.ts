@@ -7,6 +7,7 @@ import {
 
 type SearchPost = {
   title: string;
+  description?: string;
   content: string;
   url: string;
   lang: string;
@@ -186,23 +187,31 @@ const renderResults = (
 
   const markup = posts
     .map((post) => {
-      const categoryText = post.categoryText ?? post.category ?? '';
-      const categoryHtml =
-        post.category && post.icon
-          ? `<div class="post__category category"><div class="category__item category__item--light-blue">${post.icon} ${categoryText}</div></div>`
-          : '';
       const imageHtml = post.imageUrl
         ? `<div class="post__thumbnail"><picture><img src="${post.imageUrl}" alt=""></picture></div>`
         : '';
+      const descriptionHtml = post.description
+        ? `<div class="post__summary">${escapeHtml(post.description)}</div>`
+        : '';
+
+      // Estimate word count from content (Chinese chars + English words)
+      const content = post.content ?? '';
+      const chineseChars = (content.match(/[\u4e00-\u9fa5]/g) || []).length;
+      const englishWords = (content.replace(/[\u4e00-\u9fa5]/g, ' ').match(/[a-zA-Z]+/g) || []).length;
+      const wordCount = chineseChars + englishWords;
 
       return `
-<a href="${post.url}" class="post">
-  ${categoryHtml}
-  ${imageHtml}
+<a href="${post.url}" class="post post--horizontal">
   <div class="post__content">
-    <h2 class="post__title">${post.title}</h2>
-    <div class="post__date">${post.date ?? ''}</div>
+    <h2 class="post__title">${escapeHtml(post.title)}</h2>
+    ${descriptionHtml}
+    <div class="post__meta">
+      <span>${post.date ?? ''}</span>
+      <span class="post__meta-divider">|</span>
+      <span>${wordCount} 字</span>
+    </div>
   </div>
+  ${imageHtml}
 </a>`;
     })
     .join('');

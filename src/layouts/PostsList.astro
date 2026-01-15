@@ -168,14 +168,23 @@ const postsWithMetadata = posts.map((post) => {
   const categoryLabel =
     meta?.label?.[lang] ?? meta?.label?.[DEFAULT_LOCALE] ?? category;
 
+  // Calculate word count (Chinese characters + English words)
+  const body = post.body || "";
+  const chineseChars = (body.match(/[\u4e00-\u9fa5]/g) || []).length;
+  const englishWords = (
+    body.replace(/[\u4e00-\u9fa5]/g, " ").match(/[a-zA-Z]+/g) || []
+  ).length;
+  const wordCount = chineseChars + englishWords;
+
   return {
     url: getPostPermalink(post),
     title: post.data.h1 ?? post.data.title,
-    announcement: post.data.announcement,
+    description: post.data.description ?? post.data.announcement,
     category,
     categoryLabel,
     date: formatDate(post.data.date, lang),
     image: getPostImage(post),
+    wordCount,
   };
 });
 
@@ -331,7 +340,7 @@ if (defaultAlternate) {
 
         {
           postsWithMetadata.map((post) => (
-            <a href={post.url} class="post">
+            <a href={post.url} class="post post--horizontal">
               {shouldShowCategories && siteConfig.categories[post.category] && (
                 <div class="post__category category">
                   <div class="category__item category__item--light-blue">
@@ -341,9 +350,15 @@ if (defaultAlternate) {
                 </div>
               )}
 
-              <div class="post__date_right category">
-                <div class="category__item date__item--light-blue">
-                  {post.date}
+              <div class="post__content">
+                <h2 class="post__title">{post.title}</h2>
+                {post.description && (
+                  <div class="post__summary">{post.description}</div>
+                )}
+                <div class="post__meta">
+                  <span>{post.date}</span>
+                  <span class="post__meta-divider">|</span>
+                  <span>{post.wordCount} 字</span>
                 </div>
               </div>
 
@@ -354,13 +369,6 @@ if (defaultAlternate) {
                   </picture>
                 </div>
               )}
-
-              <div class="post__content">
-                <h2 class="post__title">{post.title}</h2>
-                {post.announcement && (
-                  <div class="post__summary">{post.announcement}</div>
-                )}
-              </div>
             </a>
           ))
         }
