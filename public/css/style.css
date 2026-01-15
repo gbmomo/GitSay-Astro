@@ -2559,11 +2559,11 @@ html.dark-mode .article {
 
 @media (min-width: 1024px) {
     .aside--left {
-        display: block;
+        display: none;
     }
 
     .content-center {
-        grid-column: span 7/span 7;
+        grid-column: span 9/span 9;
     }
 
     .sidebar {
@@ -2577,15 +2577,15 @@ html.dark-mode .article {
     }
 
     .tags--desktop {
-        display: block;
+        display: none;
     }
 
     .tags__top {
-        display: block;
+        display: none;
     }
 
     .tags__list {
-        display: block;
+        display: none;
     }
 
     .post__thumbnail {

@@ -1,0 +1,30 @@
+---
+import PostLayout from "@layouts/Post.astro";
+import { getPostSlug, getPosts } from "@lib/content";
+import { listNonDefaultLocales } from "@lib/language";
+
+export async function getStaticPaths() {
+    const locales = listNonDefaultLocales();
+    const paths = [];
+
+    for (const locale of locales) {
+        const posts = await getPosts({ lang: locale });
+        for (const entry of posts) {
+            paths.push({
+                params: {
+                    lang: locale,
+                    slug: getPostSlug(entry),
+                },
+                props: { entry },
+            });
+        }
+    }
+
+    return paths;
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await entry.render();
+---
+
+<PostLayout entry={entry} Content={Content} headings={headings} />

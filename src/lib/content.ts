@@ -79,15 +79,14 @@ const getSlugFromPermalink = (
 const categoryPathSegmentCache = new Map<string, string>();
 
 function derivePostMeta(entry: PostEntry) {
-  const segments = entry.slug.split('/');
-  const [lang = DEFAULT_LOCALE, category = 'blog', ...rest] = segments;
-  const fallbackKey = rest.length > 0 ? rest.join('/') : entry.id;
-  const translationKey = fallbackKey;
+  // Content is now directly in posts/ folder (no lang subfolder)
+  // entry.slug will be just the filename like "my-developer-journey"
+  const slug = entry.slug;
+  const translationKey = slug;
+  const fallbackSlug = slug.split('/').pop() ?? entry.id;
 
-  const fallbackSlug =
-    rest.length > 0 ? rest[rest.length - 1] : entry.slug.split('/').pop() ?? entry.id;
-
-  return { lang, category, translationKey, fallbackSlug };
+  // Default language for all posts, no category
+  return { lang: DEFAULT_LOCALE, category: 'posts', translationKey, fallbackSlug };
 }
 
 function derivePageMeta(entry: PageEntry) {
@@ -145,18 +144,16 @@ const filterDraftedPageEntries = (entries: PageEntry[], includeDrafts = false) =
   filterDraftedEntries(entries, getPageTranslationKey, includeDrafts);
 
 export async function getPosts(options: GetPostsOptions = {}) {
-  const { lang, category, includeDrafts = false } = options;
+  const { lang, includeDrafts = false } = options;
 
   const entries = await getCollection('posts');
   const publishedEntries = filterDraftedPostEntries(entries, includeDrafts);
 
   const filtered = publishedEntries.filter((entry) => {
     const meta = derivePostMeta(entry);
-    const categoryConfig = siteConfig.categories[meta.category];
 
-    if (!categoryConfig?.enabled) return false;
+    // Only filter by language, categories are removed
     if (lang && meta.lang !== lang) return false;
-    if (category && meta.category !== category) return false;
     return true;
   });
 
@@ -178,15 +175,9 @@ export async function getPageByTranslationKey(
 }
 
 export function getPostPermalink(entry: PostEntry) {
-  const { lang, category } = derivePostMeta(entry);
   const slug = getPostSlug(entry);
-  const categorySegment = getCategoryPathSegment(category);
-  const basePath = `/${categorySegment}/${slug}`;
-
-  const isDefaultLang = lang === DEFAULT_LOCALE;
-  const url = isDefaultLang ? basePath : `/${lang}${basePath}`;
-
-  return ensureTrailingSlash(url);
+  // All posts are at /posts/{slug}/
+  return ensureTrailingSlash(`/posts/${slug}`);
 }
 
 export function getPostCategory(entry: PostEntry) {

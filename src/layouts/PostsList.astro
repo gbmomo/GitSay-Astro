@@ -1,6 +1,5 @@
 ---
 import Layout from "./Layout.astro";
-import CategoriesList from "@components/CategoriesList.astro";
 import ProfileCard from "@components/layout/ProfileCard.astro";
 import ContactLinks from "@components/layout/ContactLinks.astro";
 import FooterCopy from "@components/layout/FooterCopy.astro";
@@ -282,16 +281,6 @@ if (defaultAlternate) {
   alternates={alternates}
 >
   <div class="content">
-    <aside class="aside aside--left">
-      <div class="tags tags--desktop">
-        <div class="tags__top">
-          <span class="icon">🏷️</span>
-          {t("ui.categories")}
-        </div>
-        <CategoriesList />
-      </div>
-    </aside>
-
     <div class="content-center">
       <form class="search form hidden" onsubmit="event.preventDefault();">
         <div class="search__top">
@@ -305,14 +294,6 @@ if (defaultAlternate) {
         />
       </form>
       <div id="search-results" style="display: none;"></div>
-
-      <div class="tags tags--mob">
-        <div class="tags__top">
-          <span class="icon">🏷️</span>
-          {t("ui.categories")}
-        </div>
-        <CategoriesList />
-      </div>
 
       <div class="filter">
         <div class="filter__categories categories">
@@ -341,15 +322,6 @@ if (defaultAlternate) {
         {
           postsWithMetadata.map((post) => (
             <a href={post.url} class="post post--horizontal">
-              {shouldShowCategories && siteConfig.categories[post.category] && (
-                <div class="post__category category">
-                  <div class="category__item category__item--light-blue">
-                    {siteConfig.categories[post.category].icon}{" "}
-                    {post.categoryLabel}
-                  </div>
-                </div>
-              )}
-
               <div class="post__content">
                 <h2 class="post__title">{post.title}</h2>
                 {post.description && (

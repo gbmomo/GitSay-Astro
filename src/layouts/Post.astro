@@ -137,19 +137,6 @@ const alternates = (() => {
                   <div class="article__date">{publishedDate}</div>
                 )
               }
-
-              {
-                categoryLabel && (
-                  <div>
-                    <a
-                      class="category__item category__item--light-blue"
-                      href={translatePath(getCategoryPath(categoryKey))}
-                    >
-                      {categoryConfig?.icon} {categoryLabel}
-                    </a>
-                  </div>
-                )
-              }
             </div>
           </div>
         </div>
