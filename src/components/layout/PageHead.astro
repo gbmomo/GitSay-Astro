@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import siteConfig from "@config/site";
 import { getOgLocale, resolveLocaleDefinition } from "@config/locales";
 import { DEFAULT_LOCALE } from "@lib/language";
@@ -207,9 +208,81 @@ gtag('config', '${siteConfig.seo.googleAnalytics}');`}
       </>
     )
   }
+  <ViewTransitions />
   <style>
     html {
       scroll-behavior: smooth;
+    }
+
+    /* View Transitions 自定义动画 */
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes slide-from-right {
+      from {
+        transform: translateX(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slide-to-left {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+    }
+
+    /* 主内容区域的过渡效果 */
+    ::view-transition-old(main-content) {
+      animation: fade-out 0.2s ease-out;
+    }
+
+    ::view-transition-new(main-content) {
+      animation: slide-from-right 0.3s ease-out;
+    }
+
+    /* 返回时的相反动画 */
+    .back-transition::view-transition-old(main-content) {
+      animation: slide-to-left 0.2s ease-out;
+    }
+
+    .back-transition::view-transition-new(main-content) {
+      animation: fade-in 0.3s ease-out;
+    }
+
+    /* 侧边栏保持不变 */
+    ::view-transition-old(sidebar),
+    ::view-transition-new(sidebar) {
+      animation: none;
+    }
+
+    /* 头部保持不变 */
+    ::view-transition-old(header),
+    ::view-transition-new(header) {
+      animation: none;
     }
   </style>
 </head>

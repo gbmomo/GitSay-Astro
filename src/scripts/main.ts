@@ -74,7 +74,12 @@ export const initClientApp = () => {
   }
 
   runWhenReady();
-  document.addEventListener('astro:after-swap', initApp);
+
+  // View Transitions: 页面切换后重新初始化
+  document.addEventListener('astro:after-swap', () => {
+    initialized = false; // 重置标志，允许重新初始化
+    initApp();
+  });
 };
 
 if (typeof window !== 'undefined') {

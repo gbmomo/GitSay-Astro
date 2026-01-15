@@ -194,6 +194,56 @@ const alternates = (() => {
             </div>
           )
         }
+
+        <!-- Giscus 评论区 -->
+        <div class="giscus-comments" transition:persist="giscus-comments"></div>
+        <script is:inline>
+          // 初始化 Giscus 评论区
+          function initGiscus() {
+            const container = document.querySelector(".giscus-comments");
+            if (!container) return;
+
+            // 如果已经有内容（评论区已加载），跳过
+            if (container.children.length > 0) {
+              return;
+            }
+
+            const getTheme = () => {
+              const stored = localStorage.getItem("theme");
+              if (stored === "dark" || stored === "light") {
+                return stored;
+              }
+              return window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+            };
+
+            const script = document.createElement("script");
+            script.src = "https://giscus.app/client.js";
+            script.setAttribute("data-repo", "gbmomo/GitSay-Astro-giscus");
+            script.setAttribute("data-repo-id", "R_kgDOQ4xBIg");
+            script.setAttribute("data-category", "Announcements");
+            script.setAttribute("data-category-id", "DIC_kwDOQ4xBIs4C04_C");
+            script.setAttribute("data-mapping", "pathname");
+            script.setAttribute("data-strict", "0");
+            script.setAttribute("data-reactions-enabled", "1");
+            script.setAttribute("data-emit-metadata", "0");
+            script.setAttribute("data-input-position", "top");
+            script.setAttribute("data-theme", getTheme());
+            script.setAttribute("data-lang", "zh-CN");
+            script.setAttribute("data-loading", "lazy");
+            script.setAttribute("crossorigin", "anonymous");
+            script.async = true;
+
+            container.appendChild(script);
+          }
+
+          // 首次加载执行
+          initGiscus();
+
+          // View Transitions 导航后执行
+          document.addEventListener("astro:page-load", initGiscus);
+        </script>
       </article>
     </div>
   </div>

@@ -26,6 +26,16 @@ const applyThemeMode = (mode: ThemeMode) => {
   root.classList.toggle('dark-mode', mode === 'dark');
   localStorage.setItem(THEME_STORAGE_KEY, mode);
   updateSwitcherState(mode);
+  
+  // 同步 Giscus 评论区主题
+  const giscusFrame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+  if (giscusFrame?.contentWindow) {
+    const giscusTheme = mode === 'dark' ? 'dark' : 'light';
+    giscusFrame.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: giscusTheme } } },
+      'https://giscus.app'
+    );
+  }
 };
 
 const attachSystemPreferenceListener = (() => {

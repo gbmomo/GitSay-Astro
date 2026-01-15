@@ -406,7 +406,11 @@ const navItems = await resolveNavItems();
 
       <MobileMenu lang={lang} navItems={navItems} />
 
-      <main class="main">
+      <main
+        class="main"
+        transition:name="main-content"
+        transition:animate="fade"
+      >
         <div class="cont">
           <slot />
         </div>
