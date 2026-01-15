@@ -6,9 +6,6 @@ import FooterCopy from "@components/layout/FooterCopy.astro";
 import siteConfig from "@config/site";
 import {
   type PostEntry,
-  getCategoryConfig,
-  getCategoryPathSegment,
-  getPostCategory,
   getPostImage,
   getPostPermalink,
   getPageByTranslationKey,
@@ -74,10 +71,7 @@ const nextPageUrl = page.url.next
   ? ensureTrailingSlash(page.url.next)
   : undefined;
 
-const categoriesSet = new Set(posts.map((post) => getPostCategory(post)));
-const shouldShowCategories = !categoryId && categoriesSet.size > 1;
-
-const categoryMeta = categoryId ? getCategoryConfig(categoryId) : null;
+// Categories removed
 
 const contactLinks = (() => {
   const links: Array<{
@@ -162,10 +156,7 @@ const projectLinks = (siteConfig.projects ?? [])
   );
 
 const postsWithMetadata = posts.map((post) => {
-  const category = getPostCategory(post);
-  const meta = siteConfig.categories[category];
-  const categoryLabel =
-    meta?.label?.[lang] ?? meta?.label?.[DEFAULT_LOCALE] ?? category;
+  // Category labels removed
 
   // Calculate word count (Chinese characters + English words)
   const body = post.body || "";
@@ -179,25 +170,19 @@ const postsWithMetadata = posts.map((post) => {
     url: getPostPermalink(post),
     title: post.data.h1 ?? post.data.title,
     description: post.data.description ?? post.data.announcement,
-    category,
-    categoryLabel,
     date: formatDate(post.data.date, lang),
     image: getPostImage(post),
     wordCount,
   };
 });
 
-const currentCategoryLabel = categoryMeta
-  ? (categoryMeta.label?.[lang] ??
-    categoryMeta.label?.[DEFAULT_LOCALE] ??
-    categoryId)
-  : t("ui.all_posts");
-const categoryIcon = categoryMeta?.icon ?? "📂";
-const categoryDescription = categoryMeta?.description?.[lang] ?? null;
+const currentCategoryLabel = t("ui.all_posts");
+const categoryIcon = "📂";
+const categoryDescription = null;
 
 const currentPageNumber = page.currentPage ?? 1;
 const postsPerPage = Math.max(1, siteConfig.postsPerPage || 1);
-const categorySegment = categoryId ? getCategoryPathSegment(categoryId) : null;
+const categorySegment = null; // Categories removed
 
 const buildBasePathForLocale = (localeCode: string): string => {
   const isDefault = localeCode.toLowerCase() === DEFAULT_LOCALE.toLowerCase();

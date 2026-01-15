@@ -9,13 +9,6 @@ export interface SiteAuthorConfig {
   bio: LocaleRecord<string>;
 }
 
-export interface SiteCategoryConfig {
-  enabled: boolean;
-  path: string;
-  icon: string;
-  label: LocaleRecord<string>;
-  description: LocaleRecord<string>;
-}
 
 export interface SiteNavigationItemConfig {
   id: string;
@@ -68,7 +61,6 @@ export interface SiteConfig {
   featuredImageFallback: string;
   contactLinks: SiteContactLink[];
   projects: SiteProjectLink[];
-  categories: Record<string, SiteCategoryConfig>;
   navigation: SiteNavigationItemConfig[];
   features: SiteFeatureToggles;
   seo: SiteSeoConfig;

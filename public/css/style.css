@@ -342,6 +342,8 @@ body.lock {
 
 .main {
     flex: 1 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .cont {
@@ -1998,8 +2000,8 @@ html.dark-mode .article {
 }
 
 .article__nav-top {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: .75rem;
     gap: .75rem;
@@ -2007,20 +2009,6 @@ html.dark-mode .article {
 
 .article__nav-top>* {
     min-width: 0;
-}
-
-.article__nav-top>*:nth-child(1) {
-    justify-self: flex-start;
-    text-align: left;
-}
-
-.article__nav-top>*:nth-child(2) {
-    text-align: center;
-}
-
-.article__nav-top>*:nth-child(3) {
-    justify-self: flex-end;
-    text-align: right;
 }
 
 .article__hr {
@@ -2032,7 +2020,7 @@ html.dark-mode .article {
 }
 
 .article__date {
-    margin-right: .5rem;
+    color: var(--text-color-highlight);
 }
 
 .article__tags {
@@ -2718,11 +2706,11 @@ html.dark-mode .article {
     }
 
     .sidebar__profile {
-        order: 0;
+        order: 1;
     }
 
     .content-center {
-        order: 1;
+        order: 0;
     }
 
     .sidebar__contact {
@@ -2752,11 +2740,15 @@ html.dark-mode .article {
     }
 
     .sidebar__footer {
-        order: 3;
+        display: none;
     }
 
     .footer__copy {
         text-align: center;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
     }
 }
 
@@ -3233,4 +3225,46 @@ html.dark-mode .site-footer__content {
         top: 12px;
         bottom: 12px;
     }
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    cursor: zoom-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2001;
+    transition: color 0.2s;
+}
+
+.close:hover {
+    color: var(--highlight-color);
 }

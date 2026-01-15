@@ -5,13 +5,10 @@ import FloatingTOC from "@components/FloatingTOC.astro";
 import siteConfig from "@config/site";
 import {
   type PostEntry,
-  getCategoryConfig,
-  getCategoryPath,
   getPostImage,
   getPostPermalink,
   getPostTranslations,
   getPostLanguage,
-  getPostCategory,
   getPageByTranslationKey,
   getPagePermalink,
 } from "@lib/content";
@@ -48,13 +45,7 @@ const aboutHref = await (async () => {
 
 const publishedDate = formatDate(entry.data.date, lang, "compact");
 const heroImage = getPostImage(entry);
-const categoryKey = getPostCategory(entry);
-const categoryConfig = getCategoryConfig(categoryKey);
-const categoryLabel =
-  categoryConfig &&
-  (categoryConfig.label?.[lang] ??
-    categoryConfig.label?.[DEFAULT_LOCALE] ??
-    categoryKey);
+// Category logic removed
 
 const translations = await getPostTranslations(entry);
 const publishedIso = entry.data.date?.toISOString?.() ?? null;
@@ -105,7 +96,7 @@ const alternates = (() => {
   ogType="article"
   publishedAt={publishedIso ?? undefined}
   authorName={authorName}
-  section={categoryLabel ?? undefined}
+  section={undefined}
   enableCodeHighlight
 >
   <div class="article-wrap">

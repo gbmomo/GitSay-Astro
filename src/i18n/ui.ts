@@ -46,39 +46,7 @@ const getLocalizedValue = <T>(
   return record[code] ?? record[DEFAULT_LOCALE];
 };
 
-const getCategoryLabel = (
-  categoryId: string,
-  code: LocaleCode,
-  fallback: string,
-): string => {
-  const category = siteConfig.categories[categoryId];
-  if (!category) {
-    return fallback;
-  }
-
-  return (
-    category.label?.[code] ??
-    category.label?.[DEFAULT_LOCALE] ??
-    fallback
-  );
-};
-
-const getCategoryDescription = (
-  categoryId: string,
-  code: LocaleCode,
-  fallback: string,
-): string => {
-  const category = siteConfig.categories[categoryId];
-  if (!category) {
-    return fallback;
-  }
-
-  return (
-    category.description?.[code] ??
-    category.description?.[DEFAULT_LOCALE] ??
-    fallback
-  );
-};
+// Category functions removed - use fallback texts
 
 const localeOverrides: Partial<Record<LocaleCode, Partial<UiDictionary>>> = {
   zh: {
@@ -119,36 +87,7 @@ const buildDictionary = (code: LocaleCode): UiDictionary => {
   base.name = getLocalizedValue(siteConfig.author.name, code);
   base['ui.description'] = getLocalizedValue(siteConfig.description, code);
 
-  base['ui.projects'] = getCategoryLabel('projects', code, base['ui.projects']);
-  base['ui.projects_title'] = getCategoryLabel(
-    'projects',
-    code,
-    base['ui.projects_title'],
-  );
-  base['ui.projects_description'] = getCategoryDescription(
-    'projects',
-    code,
-    base['ui.projects_description'],
-  );
-
-  base['ui.technology'] = getCategoryLabel(
-    'technology',
-    code,
-    base['ui.technology'],
-  );
-  base['ui.technology_description'] = getCategoryDescription(
-    'technology',
-    code,
-    base['ui.technology_description'],
-  );
-
-  base['ui.blog'] = getCategoryLabel('blog', code, base['ui.blog']);
-  base['ui.blog_description'] = getCategoryDescription(
-    'blog',
-    code,
-    base['ui.blog_description'],
-  );
-
+  // Category label functions removed - just use overrides
   const overrides = localeOverrides[code] ?? {};
   return {
     ...base,

@@ -1,12 +1,10 @@
 import siteConfig from '@config/site';
 import {
-  getPostCategory,
   getPostImage,
   getPostLanguage,
   getPostPermalink,
   getPosts,
 } from '@lib/content';
-import { DEFAULT_LOCALE } from '@lib/language';
 import { formatDate } from '@lib/format';
 
 const isDevelopment = import.meta.env.DEV;
@@ -56,13 +54,7 @@ export async function GET() {
         ? image
         : `${siteConfig.siteUrl}${image}`;
     })(),
-    category: getPostCategory(entry),
-    icon: siteConfig.categories[getPostCategory(entry)]?.icon ?? '📂',
     lang: getPostLanguage(entry),
-    categoryText:
-      siteConfig.categories[getPostCategory(entry)]?.label?.[getPostLanguage(entry)] ??
-      siteConfig.categories[getPostCategory(entry)]?.label?.[DEFAULT_LOCALE] ??
-      getPostCategory(entry),
   }));
 
   return new Response(JSON.stringify(payload, null, 2), {
@@ -71,3 +63,4 @@ export async function GET() {
     },
   });
 }
+

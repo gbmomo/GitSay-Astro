@@ -6,7 +6,7 @@
 
 1. **配置**
    - 设置集中在 `src/config/site.ts`，区域元数据在 `src/config/locales.ts`。
-   - 导航、分类、项目和联系链接根据语言环境自动解析。
+   - 导航、项目和联系链接根据语言环境自动解析。
    - 动态清单文件 (`src/pages/manifest.webmanifest.ts`) 和 robots.txt (`src/pages/robots.txt.js`)。
 
 2. **SEO 与元数据**
@@ -19,7 +19,7 @@
    - ✅ 通过 `astro-purgecss` 进行 CSS 清除，构建后脚本进行 CSSO 压缩。
    - ✅ 使用 esbuild 组装关键客户端包（`scripts/build-client.mjs`）。
    - ✅ 将 Medium-zoom 类加入白名单以避免 PurgeCSS 误删。
-   - ✅ 每页只注入一次分类/搜索数据以保持客户端脚本精简。
+   - ✅ 每页只注入一次搜索数据以保持客户端脚本精简。
 
 4. **中文优化**
    - ✅ 仅保留简体中文语言支持。

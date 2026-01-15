@@ -180,9 +180,7 @@ export function getPostPermalink(entry: PostEntry) {
   return ensureTrailingSlash(`/posts/${slug}`);
 }
 
-export function getPostCategory(entry: PostEntry) {
-  return derivePostMeta(entry).category;
-}
+
 
 export function getPostLanguage(entry: PostEntry) {
   return derivePostMeta(entry).lang;
@@ -197,11 +195,7 @@ export async function getPostTranslations(entry: PostEntry) {
   const allTranslations = await getCollection('posts');
   const publishedEntries = filterDraftedPostEntries(allTranslations);
   return publishedEntries
-    .filter((candidate) => {
-      if (getPostTranslationKey(candidate) !== translationKey) return false;
-      const categoryConfig = siteConfig.categories[getPostCategory(candidate)];
-      return Boolean(categoryConfig?.enabled);
-    })
+    .filter((candidate) => getPostTranslationKey(candidate) === translationKey)
     .sort(DEFAULT_POST_SORT);
 }
 
@@ -215,12 +209,7 @@ export function getPostImage(entry: PostEntry) {
     return imageMatch[1];
   }
 
-  const category = getPostCategory(entry);
-
-  return (
-    CATEGORY_PLACEHOLDERS[category] ??
-    siteConfig.featuredImageFallback
-  );
+  return siteConfig.featuredImageFallback;
 }
 
 export function getPageLanguage(entry: PageEntry) {
@@ -257,62 +246,7 @@ export async function getPageTranslations(entry: PageEntry) {
   );
 }
 
-export const getEnabledCategoryIds = (): string[] =>
-  Object.entries(siteConfig.categories)
-    .filter(([, config]) => config.enabled)
-    .map(([id]) => id);
 
-export const isCategoryEnabled = (categoryId: string): boolean =>
-  Boolean(siteConfig.categories[categoryId]?.enabled);
-
-export const getCategoryConfig = (categoryId: string) => siteConfig.categories[categoryId] ?? null;
-
-export function getCategoryPathSegment(categoryId: string): string {
-  if (categoryPathSegmentCache.has(categoryId)) {
-    return categoryPathSegmentCache.get(categoryId)!;
-  }
-
-  const config = siteConfig.categories[categoryId];
-  const fallback = categoryId;
-
-  if (!config) {
-    categoryPathSegmentCache.set(categoryId, fallback);
-    return fallback;
-  }
-
-  const normalized = normalizePath(config.path);
-  if (!normalized) {
-    categoryPathSegmentCache.set(categoryId, fallback);
-    return fallback;
-  }
-
-  const segment = pickSegment(normalized, fallback, `Category "${categoryId}" path`);
-  categoryPathSegmentCache.set(categoryId, segment);
-  return segment;
-}
-
-export function getCategoryPath(categoryId: string): string {
-  return ensureTrailingSlash(`/${getCategoryPathSegment(categoryId)}`);
-}
-
-export function getCategoryPermalink(categoryId: string, lang: string = DEFAULT_LOCALE): string {
-  const basePath = getCategoryPath(categoryId);
-  return lang === DEFAULT_LOCALE
-    ? basePath
-    : ensureTrailingSlash(`/${lang}${basePath}`);
-}
-
-export function findCategoryIdByPathSegment(segment: string): string | null {
-  const normalized = normalizePath(segment) ?? segment;
-  const candidates = Object.keys(siteConfig.categories);
-  for (const candidate of candidates) {
-    if (getCategoryPathSegment(candidate) === normalized) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
 
 export const getPostSlug = (entry: PostEntry): string => {
   const { fallbackSlug } = derivePostMeta(entry);

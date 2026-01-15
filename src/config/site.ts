@@ -124,41 +124,6 @@ const siteConfig: SiteConfig = {
     },
   ],
 
-  categories: {
-    blog: {
-      enabled: true,
-      path: '/blog',
-      icon: '💻',
-      label: {
-        zh: '博客',
-      },
-      description: {
-        zh: '个人想法、经验和见解',
-      },
-    },
-    technology: {
-      enabled: true,
-      path: '/technology',
-      icon: '🚀',
-      label: {
-        zh: '技术',
-      },
-      description: {
-        zh: '深入探讨 Web 开发、工具和最佳实践',
-      },
-    },
-    projects: {
-      enabled: true,
-      path: '/projects',
-      icon: '🛠️',
-      label: {
-        zh: '项目',
-      },
-      description: {
-        zh: '我的作品和开源贡献展示',
-      },
-    },
-  },
 
   navigation: [
     {

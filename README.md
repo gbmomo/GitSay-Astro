@@ -16,7 +16,7 @@
 - **🌙 深色模式** - 支持自动切换和手动切换深色/浅色主题
 - **🔍 全局搜索** - 内置强大的文章搜索功能
 - **📝 Markdown 支持** - 支持 Markdown/MDX 编写文章，完整语法高亮
-- **🏷️ 分类管理** - 支持博客、技术、项目等多种分类
+- **🏷️ 简洁结构** - 扁平化内容目录，文章直接以 `/posts/slug/` 格式访问
 - **📊 SEO 友好** - 内置 Sitemap、RSS 订阅和详细的 Meta 标签配置
 - **⚙️ 高度可配置** - 通过单一配置文件轻松自定义
 - **💬 社交链接** - 集成微信、QQ、Bilibili、抖音等国内主流社交媒体
@@ -110,37 +110,7 @@ contactLinks: [
 ];
 ```
 
-### 分类配置
 
-配置博客分类：
-
-```typescript
-categories: {
-  blog: {
-    enabled: true,
-    path: '/blog',
-    icon: '💻',
-    label: {
-      zh: '博客',
-    },
-    description: {
-      zh: '个人想法、经验和见解',
-    },
-  },
-  technology: {
-    enabled: true,
-    path: '/technology',
-    icon: '🚀',
-    label: {
-      zh: '技术',
-    },
-    description: {
-      zh: '深入探讨 Web 开发、工具和最佳实践',
-    },
-  },
-  // 添加更多分类
-}
-```
 
 ### 功能开关
 
@@ -161,10 +131,7 @@ features: {
 
 ### 创建新文章
 
-1. 在相应目录下创建 `.md` 文件：
-   - 博客文章：`src/content/posts/zh/blog/`
-   - 技术文章：`src/content/posts/zh/technology/`
-   - 项目展示：`src/content/posts/zh/projects/`
+1. 在 `src/content/posts/` 目录下创建 `.md` 文件
 
 2. 添加 frontmatter：
 
@@ -183,7 +150,7 @@ draft: false # 可选：设为 true 排除此文章
 在这里写你的文章内容...
 ```
 
-> 文件夹路径 `src/content/posts/<lang>/<category>/` 会自动决定语言和分类——无需额外的 frontmatter。
+> 文章将自动以 `/posts/{slug}/` 格式访问，slug 从文件名派生或通过 permalink 自定义。
 
 ### Frontmatter 参考
 
@@ -194,7 +161,7 @@ draft: false # 可选：设为 true 排除此文章
 | `description` | `string` | SEO/meta 描述 | ❌ | — |
 | `date` | `string` (ISO) | 发布日期，用于排序 | ✅ | — |
 | `announcement` | `string` | 卡片上显示的简短摘要 | ❌ | — |
-| `image` | `string` | 特色图片路径或 URL | ❌ | 分类/全局默认 |
+| `image` | `string` | 特色图片路径或 URL | ❌ | 默认占位图 |
 | `permalink` | `string` | 自定义文章 URL（单个路径段） | ❌ | 从文件名派生 |
 | `draft` | `boolean` | 从生产构建、订阅源、搜索和站点地图中排除 | ❌ | `false` |
 
@@ -214,7 +181,7 @@ draft: false # 可选：设为 true 排除此文章
 - ✅ 完整 HTML 内容（不仅仅是描述）
 - ✅ 正确转换的图片 URL（相对路径转绝对路径）
 - ✅ 作者信息
-- ✅ 文章分类
+- ✅ 文章标签
 - ✅ 所有必需的 RSS 2.0 元素
 
 ## 🎨 自定义
@@ -229,14 +196,9 @@ draft: false # 可选：设为 true 排除此文章
 
 #### 占位图片
 
-模板为没有特色图片的文章提供分类特定的占位图片：
+模板为没有特色图片的文章提供默认占位图片：`/public/img/posts/placeholder.svg`
 
-- **博客文章**：`/public/img/posts/placeholder-blog.svg`
-- **技术文章**：`/public/img/posts/placeholder-technology.svg`
-- **项目文章**：`/public/img/posts/placeholder-projects.svg`
-- **默认**：`/public/img/posts/placeholder.svg`
-
-文章会根据其分类自动使用相应的占位图片。
+文章如果在 frontmatter 中没有指定 `image`，将自动使用占位图片。
 
 ## 🚀 部署
 
