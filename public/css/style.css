@@ -69,9 +69,9 @@
     --copy-btn-success: #28a745;
     --font-sans: 'Roboto', sans-serif;
     --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
-    --radius-sm: 0.75rem;
-    --radius-md: 1rem;
-    --radius-lg: 1.5rem;
+    --radius-sm: 12px;
+    --radius-md: 12px;
+    --radius-lg: 12px;
     --shadow-card: rgba(0, 0, 0, .1) 0 4px 6px -1px, rgba(0, 0, 0, .06) 0 2px 4px -1px;
     --layout-max-width: 1120px;
 }
@@ -629,7 +629,7 @@ a {
     display: block;
     max-width: 100%;
     margin-bottom: 20px;
-    border-radius: 20px;
+    border-radius: 12px;
 }
 
 .text-block li img {
@@ -1384,7 +1384,8 @@ a {
 }
 
 .filter {
-    display: flex;
+    display: none;
+    /* Hide the "All Posts" title section */
     align-items: center;
     justify-content: space-between;
 
@@ -1553,7 +1554,7 @@ html.dark-mode .post--horizontal .post__summary {
     min-height: 100%;
     order: 2;
     margin: 0.75rem;
-    border-radius: calc(var(--radius-md) - 4px);
+    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -1701,6 +1702,8 @@ html.dark-mode .post--horizontal .post__meta-divider {
     flex-wrap: nowrap;
     justify-content: flex-start;
     padding-bottom: 2rem;
+    margin-top: 2.75rem;
+    /* Align with sidebar card content */
 }
 
 .title {
@@ -2738,6 +2741,16 @@ html.dark-mode .article {
         border-color: rgba(255, 255, 255, 0.1);
     }
 
+    /* 移除联系方式区域内部 box-links 的边框和背景，避免双重边框和颜色叠加 */
+    .sidebar__contact .box-links,
+    html.dark-mode .sidebar__contact .box-links {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
     .sidebar__footer {
         order: 3;
     }
@@ -3145,4 +3158,79 @@ html.dark-mode .site-footer__content {
 .site-footer__content a:hover {
     color: #4096FF;
     text-decoration: underline;
+}
+
+/* Mobile optimizations for article list */
+@media (max-width: 768px) {
+    /* Adjust global radius for mobile if needed, or just specific elements */
+
+    .post {
+        border-radius: 12px;
+        /* Match reference mobile card radius */
+    }
+
+    .post--horizontal {
+        min-height: auto;
+        padding: 12px;
+        /* Match reference mobile padding (0.75rem at 12px root) */
+        align-items: center;
+        /* Center items vertically */
+    }
+
+    .post--horizontal .post__content {
+        padding: 0 12px 0 0;
+        /* Adjust internal padding to match */
+        flex: 1;
+        /* Takes up remaining space (approx 75%) */
+        width: 0;
+        /* distinct from auto, allows text truncation to work */
+    }
+
+    .post--horizontal .post__thumbnail {
+        flex: 0 0 25%;
+        /* Fixed 25% width */
+        width: 25%;
+        margin: 0;
+        padding-bottom: 25%;
+        /* Square aspect ratio (25% of container width) */
+        min-height: 0;
+        height: 0;
+        /* Height controlled by padding */
+        border-radius: 12px;
+        /* Match reference mobile image radius */
+    }
+
+    .post--horizontal .post__title {
+        font-size: 1.1rem;
+        line-height: 1.3;
+        margin-bottom: 0.25rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        /* Standard property */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .post--horizontal .post__summary {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        margin-bottom: 0.25rem;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        /* Standard property */
+        display: -webkit-box;
+        /* Ensure strictly 2 lines or hidden if too long */
+    }
+
+    .post--horizontal .post__meta {
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+
+    .post--horizontal::before {
+        width: 3px;
+        top: 12px;
+        bottom: 12px;
+    }
 }
