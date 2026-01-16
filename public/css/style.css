@@ -2777,6 +2777,11 @@ html.dark-mode .article {
         order: 2;
     }
 
+    /* 移动端广告显示在联系方式之后 */
+    .sidebar__ad {
+        order: 3;
+    }
+
     /* 在移动端让 contact__title 样式与 profile__title 保持一致 */
     .sidebar__contact .contact__title {
         margin-bottom: .75rem;

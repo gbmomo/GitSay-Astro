@@ -1,0 +1,46 @@
+---
+// Google AdSense 展示广告单元
+// 支持 Astro View Transitions，页面切换时重新加载广告
+---
+
+<div class="ad-container">
+    <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-5496036874718873"
+        data-ad-slot="4985334337"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+</div>
+
+<script is:inline>
+    function initAdsense() {
+        // 查找所有未初始化的广告单元
+        const ads = document.querySelectorAll(
+            ".adsbygoogle:not([data-adsbygoogle-status])",
+        );
+
+        if (ads.length > 0 && typeof window.adsbygoogle !== "undefined") {
+            ads.forEach(() => {
+                try {
+                    (window.adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.log("AdSense error:", e);
+                }
+            });
+        }
+    }
+
+    // 首次加载执行
+    initAdsense();
+
+    // View Transitions 导航后执行
+    document.addEventListener("astro:page-load", initAdsense);
+</script>
+
+<style>
+    .ad-container {
+        margin: 2rem 0;
+        min-height: 100px;
+    }
+</style>
