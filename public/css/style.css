@@ -783,6 +783,8 @@ a {
     margin-top: 20px;
     margin-bottom: 10px;
     /*font-weight: bold;*/
+    scroll-margin-top: 4rem;
+    /* 为固定导航栏留出空间，避免锚点跳转时标题被遮挡 */
 }
 
 /*.text-block h1 {*/
@@ -1804,6 +1806,23 @@ html.dark-mode .profile__content {
     line-height: 1.25rem;
 }
 
+/* Profile card link - make entire card clickable */
+a.profile__content {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+a.profile__content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+html.dark-mode a.profile__content:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
 .box-links {
     display: flex;
     flex-direction: column;
@@ -2715,28 +2734,11 @@ html.dark-mode .article {
 
     .sidebar__contact {
         order: 2;
-        padding: 10px;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-card);
     }
 
-    html.dark-mode .sidebar__contact {
-        background: rgba(40, 40, 40, 0.75);
-        border-color: rgba(255, 255, 255, 0.1);
-    }
-
-    /* 移除联系方式区域内部 box-links 的边框和背景，避免双重边框和颜色叠加 */
-    .sidebar__contact .box-links,
-    html.dark-mode .sidebar__contact .box-links {
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
+    /* 在移动端让 contact__title 样式与 profile__title 保持一致 */
+    .sidebar__contact .contact__title {
+        margin-bottom: .75rem;
     }
 
     .sidebar__footer {

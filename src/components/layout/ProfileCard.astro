@@ -15,34 +15,34 @@ const {
   profileHref,
   avatarSrc,
   alt,
-  icon = '💻',
+  icon = "💻",
   className,
 }: ProfileCardProps = Astro.props;
 
 const baseClasses = Array.isArray(className)
   ? className
-  : typeof className === 'string'
-  ? [className]
-  : className && typeof className === 'object'
-  ? Object.entries(className)
-      .filter(([, value]) => Boolean(value))
-      .map(([key]) => key)
-  : [];
+  : typeof className === "string"
+    ? [className]
+    : className && typeof className === "object"
+      ? Object.entries(className)
+          .filter(([, value]) => Boolean(value))
+          .map(([key]) => key)
+      : [];
 
-const classNames = ['profile', ...baseClasses.filter(Boolean)];
+const classNames = ["profile", ...baseClasses.filter(Boolean)];
 ---
-<div class={classNames.join(' ')}>
+
+<div class={classNames.join(" ")}>
   <div class="profile__title title">
-    <span class="icon">{icon}</span> {title}
+    <span class="icon">{icon}</span>
+    {title}
   </div>
-  <div class="profile__content">
+  <a href={profileHref} class="profile__content profile__link">
     <div class="profile__content-top">
-      <a href={profileHref}>
-        <img src={avatarSrc} alt={alt} />
-      </a>
+      <img src={avatarSrc} alt={alt} />
     </div>
     <div class="profile__content-mid">
       <div class="profile__text">{description}</div>
     </div>
-  </div>
+  </a>
 </div>
