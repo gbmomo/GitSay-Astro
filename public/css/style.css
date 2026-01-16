@@ -121,6 +121,47 @@ html.dark-mode * {
     color-scheme: dark;
 }
 
+/* 页面首次加载/刷新入场动画 */
+@keyframes page-load-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 页面整体入场动画 - 仅在首次加载/刷新时生效 */
+.page {
+    animation: page-load-fade-in 0.4s ease-out;
+}
+
+/* 内容区域错开入场动画 */
+@keyframes content-stagger-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 主内容延时入场 */
+.main {
+    animation: content-stagger-in 0.5s ease-out 0.1s both;
+}
+
+/* 侧边栏内容延时入场 */
+.sidebar {
+    animation: content-stagger-in 0.5s ease-out 0.15s both;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
