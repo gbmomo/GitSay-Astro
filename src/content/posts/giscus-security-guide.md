@@ -1,8 +1,8 @@
 ---
-title: '为你的网站添加评论区:giscus部署与垃圾评论过滤'
-h1: 为你的网站添加评论区:giscus部署与垃圾评论过滤
+title: '给网站添加评论区:giscus部署与垃圾评论过滤'
+h1: 给网站添加评论区:giscus部署与垃圾评论过滤
 description: >-
-  从零配置Giscus评论系统，接入Akismet反垃圾过滤，再到防止他人滥用你的评论区配置，一站式解决博客评论安全问题。
+  从零配置Giscus评论系统，接入Akismet反垃圾过滤，再到防止他人滥用你的评论区配置，一站式解决网站评论安全问题。
 date: '2025-01-16'
 ---
 ![Giscus评论系统安全配置](/img/posts/giscus-security-guide/cover.png)
@@ -134,7 +134,7 @@ https://github.com/你的用户名/你的仓库/settings/interaction_limits
 
 ## 🔒 防止评论区被"借用"
 
-开源博客有个尴尬问题：有人 Fork 完代码直接上线，**连你的 Giscus 配置都没改**。
+开源网站有个尴尬问题：有人 Fork 完代码直接上线，**连你的 Giscus 配置都没改**。
 
 结果就是——别人的评论全跑到你这来了：
 
@@ -158,7 +158,7 @@ https://github.com/你的用户名/你的仓库/settings/interaction_limits
 
 ## ✅ 配置清单
 
-Fork 开源博客模板后，上线前请确认：
+Fork 开源网站模板后，上线前请确认：
 
 - [ ] Giscus 仓库改成自己的
 - [ ] `giscus.json` 配置了域名白名单
