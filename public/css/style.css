@@ -3279,40 +3279,50 @@ html.dark-mode .site-footer__content {
 .lightbox {
     display: none;
     position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    inset: 0;
+    /* Use inset for full viewport coverage */
+    z-index: 9999;
+    /* Extremely high z-index to ensure it's on top */
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    /* Prevent any scrolling on the lightbox itself */
 }
 
 .lightbox-content {
-    margin: auto;
+    position: relative;
     display: block;
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     border-radius: 8px;
     cursor: zoom-out;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 64px rgba(0, 0, 0, 0.4);
 }
 
-.close {
-    position: absolute;
+.lightbox .close {
+    position: fixed;
+    /* Use fixed instead of absolute for viewport-relative positioning */
     top: 20px;
     right: 30px;
-    color: #f1f1f1;
+    color: #ffffff;
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 2001;
-    transition: color 0.2s;
+    z-index: 10000;
+    /* Higher than lightbox */
+    transition: color 0.2s, transform 0.2s;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.close:hover {
+.lightbox .close:hover {
     color: var(--highlight-color);
+    transform: scale(1.1);
 }
