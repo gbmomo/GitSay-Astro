@@ -365,75 +365,87 @@ let headingCount = 0;
       if ((window as any).__tocClickNav) return;
       if (!this.headings.length) return;
 
-      const offset = 150; // Offset from top of viewport for heading detection
+      const viewportHeight = window.innerHeight;
+      const visibleIndices: number[] = [];
 
-      // Find the heading that was most recently scrolled past
-      let activeIdx = -1;
-
+      // 检查每个段落是否在视口内可见
       for (let i = 0; i < this.headings.length; i++) {
         const heading = this.headings[i];
         if (!heading) continue;
 
-        const rect = heading.getBoundingClientRect();
-        const headingTop = rect.top;
+        // 计算当前段落的范围（从当前标题到下一个标题）
+        const headingRect = heading.getBoundingClientRect();
+        const sectionTop = headingRect.top;
 
-        // If heading has been scrolled past (is above or at offset)
-        if (headingTop <= offset) {
-          activeIdx = i;
+        // 计算段落底部（下一个标题的顶部，或者文档底部）
+        let sectionBottom: number;
+        if (i < this.headings.length - 1 && this.headings[i + 1]) {
+          sectionBottom = this.headings[i + 1].getBoundingClientRect().top;
+        } else {
+          // 最后一个段落，延伸到文档底部
+          sectionBottom =
+            document.documentElement.scrollHeight - window.scrollY;
+        }
+
+        // 检查段落是否与视口有交叉（只要有一行可见就算）
+        // 顶部偏移 70px 以避开固定导航栏和视觉误差
+        const headerOffset = 70;
+        const isVisible =
+          sectionTop < viewportHeight && sectionBottom > headerOffset;
+
+        if (isVisible) {
+          visibleIndices.push(i);
         }
       }
 
-      // If at the very top of the page, show the first visible heading
-      if (activeIdx === -1) {
-        for (let i = 0; i < this.headings.length; i++) {
-          const heading = this.headings[i];
-          if (!heading) continue;
-
-          const rect = heading.getBoundingClientRect();
-          if (rect.top <= window.innerHeight) {
-            activeIdx = i;
-            break;
-          }
-        }
+      // 如果没有可见的，默认高亮第一个
+      if (visibleIndices.length === 0 && this.headings.length > 0) {
+        visibleIndices.push(0);
       }
 
-      // If still nothing, default to first
-      if (activeIdx === -1 && this.headings.length > 0) {
-        activeIdx = 0;
-      }
-
-      // Update classes
+      // Update classes - 高亮所有可见的段落
       this.tocEntries.forEach((entry, i) => {
-        if (i === activeIdx) {
+        if (visibleIndices.includes(i)) {
           entry.classList.add(this.visibleClass);
         } else {
           entry.classList.remove(this.visibleClass);
         }
       });
 
-      // Update indicator
-      this.updateIndicator(activeIdx);
+      // Update indicator - 覆盖从第一个到最后一个可见项
+      this.updateIndicatorRange(visibleIndices);
     };
 
     updateIndicator = (activeIdx: number) => {
+      this.updateIndicatorRange([activeIdx]);
+    };
+
+    // 新方法：支持多个可见项的指示器
+    updateIndicatorRange = (visibleIndices: number[]) => {
       if (!this.activeIndicator || !this.navEl) return;
 
-      if (activeIdx < 0 || activeIdx >= this.tocEntries.length) {
+      if (visibleIndices.length === 0) {
         this.activeIndicator.style.opacity = "0";
         return;
       }
 
-      const activeEntry = this.tocEntries[activeIdx];
-      if (!activeEntry) {
+      const firstIdx = visibleIndices[0];
+      const lastIdx = visibleIndices[visibleIndices.length - 1];
+
+      const firstEntry = this.tocEntries[firstIdx];
+      const lastEntry = this.tocEntries[lastIdx];
+
+      if (!firstEntry || !lastEntry) {
         this.activeIndicator.style.opacity = "0";
         return;
       }
 
       const navRect = this.navEl.getBoundingClientRect();
-      const entryRect = activeEntry.getBoundingClientRect();
+      const firstRect = firstEntry.getBoundingClientRect();
+      const lastRect = lastEntry.getBoundingClientRect();
 
-      const top = entryRect.top - navRect.top;
-      const height = entryRect.height;
+      const top = firstRect.top - navRect.top;
+      const height = lastRect.bottom - firstRect.top;
 
       this.activeIndicator.style.top = `${top}px`;
       this.activeIndicator.style.height = `${height}px`;
@@ -538,7 +550,9 @@ let headingCount = 0;
             this.setActiveItem(clickedIdx, true);
 
             // Scroll to the target with custom animation speed
-            const targetPosition = targetElement.offsetTop;
+            // 偏移量与 CSS scroll-margin-top 保持一致，避免标题被导航栏遮挡
+            const scrollOffset = 20; // 偏移量，可以在这里调整
+            const targetPosition = targetElement.offsetTop + scrollOffset;
             const scrollDuration = 300; // ⬅️ 滚动动画时长（毫秒），可以在这里调整速度
             this.smoothScrollTo(targetPosition, scrollDuration);
             history.pushState(null, "", `#${targetId}`);
@@ -546,6 +560,8 @@ let headingCount = 0;
             // Resume scroll detection after animation completes
             this.clickNavigatingTimeout = window.setTimeout(() => {
               (window as any).__tocClickNav = false;
+              // 动画结束后立即更新一次高亮状态，确保显示所有可见项
+              this.updateActiveHeading();
             }, scrollDuration + 100); // Add buffer after scroll completes
           }
         }

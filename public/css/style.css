@@ -824,7 +824,7 @@ a {
     margin-top: 20px;
     margin-bottom: 10px;
     /*font-weight: bold;*/
-    scroll-margin-top: 4rem;
+    scroll-margin-top: 3rem;
     /* 为固定导航栏留出空间，避免锚点跳转时标题被遮挡 */
 }
 
