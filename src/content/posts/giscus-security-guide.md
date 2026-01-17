@@ -1,8 +1,8 @@
 ---
-title: '用giscus为网站打造无垃圾评论区：giscus部署与垃圾评论过滤'
-h1: 网站评论区giscus部署与垃圾评论过滤
+title: '为你的网站添加评论区:giscus部署与垃圾评论过滤'
+h1: 为你的网站添加评论区:giscus部署与垃圾评论过滤
 description: >-
-  从零配置Giscus评论系统，接入Akismet反垃圾过滤，再到防止他人滥用你的评论区配置——一站式解决博客评论安全问题。
+  从零配置Giscus评论系统，接入Akismet反垃圾过滤，再到防止他人滥用你的评论区配置，一站式解决博客评论安全问题。
 date: '2025-01-16'
 ---
 ![Giscus评论系统安全配置](/img/posts/giscus-security-guide/cover.png)
