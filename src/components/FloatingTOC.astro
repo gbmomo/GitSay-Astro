@@ -14,61 +14,58 @@ export interface Props {
 const { headings, lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Improved heading processing to support nesting
-const processHeadings = (headings) => {
-  const filtered = headings.filter((h) => h.depth === 2 || h.depth === 3);
-  const result = [];
-  let currentH2 = null;
+// Find minimum depth to support any heading structure
+let minDepth = 10;
+for (const heading of headings) {
+  minDepth = Math.min(minDepth, heading.depth);
+}
 
-  filtered.forEach((h) => {
-    if (h.depth === 2) {
-      currentH2 = { ...h, children: [] };
-      result.push(currentH2);
-    } else if (h.depth === 3 && currentH2) {
-      currentH2.children.push(h);
-    }
-  });
+// Filter headings to max 2 levels deep from minimum
+const maxLevel = 2;
+const filteredHeadings = headings.filter((h) => h.depth < minDepth + maxLevel);
 
-  return result;
-};
-
-const tocTree = processHeadings(headings);
+// Count headings at each depth for numbering
+let headingCount = 0;
 ---
 
 {
-  tocTree.length > 0 && (
+  filteredHeadings.length > 0 && (
     <aside class="floating-toc" aria-label="Table of contents">
-      <div class="floating-toc__inner">
+      <div class="floating-toc__inner" id="toc-inner-wrapper">
         <div class="floating-toc__header">{t("ui.contents")}</div>
-        <nav class="floating-toc__nav">
-          <ol class="toc-list">
-            {tocTree.map((h2) => (
-              <li class="toc-item">
-                <a
-                  href={`#${h2.slug}`}
-                  class="floating-toc__link depth-2"
-                  data-level="2"
+        <nav class="floating-toc__nav" id="toc">
+          {filteredHeadings.map((heading) => {
+            const isTopLevel = heading.depth === minDepth;
+            if (isTopLevel) headingCount++;
+
+            return (
+              <a
+                href={`#${heading.slug}`}
+                class:list={[
+                  "toc-link",
+                  {
+                    "toc-link--h2": isTopLevel,
+                    "toc-link--h3": heading.depth === minDepth + 1,
+                  },
+                ]}
+              >
+                <div
+                  class:list={[
+                    "toc-badge",
+                    {
+                      "toc-badge--numbered": isTopLevel,
+                      "toc-badge--dot": heading.depth === minDepth + 1,
+                    },
+                  ]}
                 >
-                  <div class="floating-toc__text">{h2.text}</div>
-                </a>
-                {h2.children.length > 0 && (
-                  <ol class="toc-sublist">
-                    {h2.children.map((h3) => (
-                      <li class="toc-subitem">
-                        <a
-                          href={`#${h3.slug}`}
-                          class="floating-toc__link depth-3"
-                          data-level="3"
-                        >
-                          <div class="floating-toc__text">{h3.text}</div>
-                        </a>
-                      </li>
-                    ))}
-                  </ol>
-                )}
-              </li>
-            ))}
-          </ol>
+                  {isTopLevel && headingCount}
+                  {heading.depth === minDepth + 1 && <div class="toc-dot" />}
+                </div>
+                <span class="toc-text">{heading.text}</span>
+              </a>
+            );
+          })}
+          <div id="active-indicator" class="toc-active-indicator" />
         </nav>
       </div>
     </aside>
@@ -84,19 +81,18 @@ const tocTree = processHeadings(headings);
 
   .floating-toc {
     position: fixed;
-    top: 50%;
+    top: 100px;
     right: 2rem;
-    transform: translateY(-50%);
     width: 260px;
-    max-height: 70vh;
+    max-height: calc(100vh - 160px);
     z-index: 10;
     animation: fadeIn 0.3s ease-out;
   }
 
   .floating-toc__inner {
-    padding: 1.5rem;
+    padding: 1rem;
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: calc(100vh - 200px);
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
 
@@ -130,109 +126,146 @@ const tocTree = processHeadings(headings);
   }
 
   .floating-toc__header {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--main-color);
     margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
+    padding: 0 0.5rem 0.5rem;
     border-bottom: 1px solid var(--border-color);
   }
 
   .floating-toc__nav {
-    font-size: 0.9rem;
-  }
-
-  /* Reset for counters */
-  .toc-list {
-    list-style: none;
-    counter-reset: item;
-    padding: 0;
-    margin: 0;
-  }
-
-  .toc-item {
-    counter-increment: item;
-    margin-bottom: 0.25rem;
-  }
-
-  .toc-sublist {
-    list-style: none;
-    counter-reset: subitem;
-    padding-left: 0.5rem;
-    margin-top: 0.25rem;
-  }
-
-  .toc-subitem {
-    counter-increment: subitem;
-  }
-
-  .floating-toc__link {
-    display: flex;
-    align-items: baseline;
-    padding: 0.4rem 0.5rem;
-    color: var(--text-color);
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    line-height: 1.4;
     position: relative;
   }
 
-  /* Numbering logic */
-  .floating-toc__link.depth-2::before {
-    content: counter(item) ". ";
-    font-weight: 600;
-    margin-right: 0.4em;
-    font-variant-numeric: tabular-nums;
-    color: var(--main-color);
-    opacity: 0.7;
-    flex-shrink: 0;
-  }
-
-  .floating-toc__link.depth-3::before {
-    content: counter(item) "." counter(subitem) " ";
-    font-size: 0.9em;
-    margin-right: 0.4em;
-    font-variant-numeric: tabular-nums;
+  /* Link styles */
+  .toc-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    min-height: 2.25rem;
+    border-radius: 0.75rem;
     color: var(--text-color);
-    opacity: 0.7;
-    flex-shrink: 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Indent adjustments */
-  .floating-toc__link.depth-3 {
-    padding-left: 1.25rem;
-    font-size: 0.85rem;
-  }
-
-  .floating-toc__link:hover {
+  .toc-link:hover {
     color: var(--main-color);
     background-color: rgba(0, 0, 0, 0.04);
   }
 
-  :global(html.dark-mode) .floating-toc__link:hover {
+  :global(html.dark-mode) .toc-link:hover {
     background-color: rgba(255, 255, 255, 0.05);
   }
 
-  .floating-toc__link.active {
-    color: var(--main-color);
-    background-color: var(--active-tab-bg);
-    font-weight: 500;
+  .toc-link.visible {
+    color: #3b82f6;
   }
 
-  .floating-toc__link.active::before {
-    color: var(--highlight-color);
+  /* H3 indent */
+  .toc-link--h3 {
+    padding-left: 1rem;
+  }
+
+  /* Badge styles - numbered for h2 */
+  .toc-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .toc-badge--numbered {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Dot styles for h3 */
+  .toc-badge--dot {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .toc-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.1875rem;
+    background-color: #3b82f6;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+  }
+
+  .toc-link.visible .toc-dot {
     opacity: 1;
   }
 
-  .floating-toc__text {
+  /* Text styles */
+  .toc-text {
+    font-size: 0.875rem;
+    line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  .toc-link--h3 .toc-text {
+    font-size: 0.8125rem;
+    color: var(--text-color);
+  }
+
+  .toc-link--h3.visible .toc-text {
+    color: #3b82f6;
+  }
+
+  /* Active indicator - sliding background */
+  .toc-active-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.15) 0%,
+      rgba(37, 99, 235, 0.1) 100%
+    );
+    border-radius: 0.75rem;
+    z-index: 0;
+    opacity: 0;
+    transition:
+      top 0.3s ease,
+      height 0.3s ease,
+      opacity 0.2s ease;
+    pointer-events: none;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+  }
+
+  :global(html.dark-mode) .toc-active-indicator {
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.2) 0%,
+      rgba(37, 99, 235, 0.15) 100%
+    );
+    border: 1px solid rgba(59, 130, 246, 0.4);
+  }
+
+  /* Hover state hides the indicator temporarily */
+  .floating-toc__nav:hover .toc-active-indicator {
+    opacity: 0.3;
   }
 
   @media (min-width: 1600px) {
@@ -252,97 +285,305 @@ const tocTree = processHeadings(headings);
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(-50%) translateX(10px);
+      transform: translateX(10px);
     }
     to {
       opacity: 1;
-      transform: translateY(-50%) translateX(0);
+      transform: translateX(0);
     }
   }
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const toc = document.querySelector(".floating-toc");
-    if (!toc) {
-      return;
+  class TableOfContents {
+    tocEl: HTMLElement | null = null;
+    navEl: HTMLElement | null = null;
+    visibleClass = "visible";
+    headingIdxMap = new Map<string, number>();
+    headings: HTMLElement[] = [];
+    tocEntries: HTMLAnchorElement[] = [];
+    activeIndicator: HTMLElement | null = null;
+    scrollHandler: (() => void) | null = null;
+    clickNavigatingTimeout: number | null = null;
+    pendingRafId: number | null = null; // Track pending RAF to cancel on click
+
+    init() {
+      this.tocEl = document.getElementById("toc-inner-wrapper");
+      this.navEl = document.getElementById("toc");
+      if (!this.tocEl || !this.navEl) return;
+
+      this.tocEl.addEventListener("click", this.handleClick, { capture: true });
+
+      this.activeIndicator = document.getElementById("active-indicator");
+
+      this.tocEntries = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>("#toc a[href^='#']"),
+      );
+
+      if (this.tocEntries.length === 0) return;
+
+      this.headings = [];
+      for (let i = 0; i < this.tocEntries.length; i++) {
+        const id = decodeURIComponent(
+          this.tocEntries[i].hash?.substring(1) || "",
+        );
+        const heading = document.getElementById(id);
+        if (heading instanceof HTMLElement) {
+          this.headings[i] = heading;
+          this.headingIdxMap.set(id, i);
+        }
+      }
+
+      // Use scroll event for reliable tracking
+      this.scrollHandler = () => this.onScroll();
+      window.addEventListener("scroll", this.scrollHandler, { passive: true });
+
+      // Initial update
+      this.onScroll();
     }
 
-    const links = Array.from(toc.querySelectorAll(".floating-toc__link"));
-    const headings = links
-      .map((link) => {
-        const id = link.getAttribute("href")?.slice(1);
-        return id ? document.getElementById(id) : null;
-      })
-      .filter(Boolean);
+    onScroll = () => {
+      // Skip scroll detection if we're in a click navigation (using global flag)
+      if ((window as any).__tocClickNav) return;
 
-    const scrollToHeading = (targetId) => {
-      const targetElement = document.getElementById(targetId);
-      if (!targetElement) {
+      // Cancel any pending RAF to avoid stale updates
+      if (this.pendingRafId) {
+        cancelAnimationFrame(this.pendingRafId);
+      }
+
+      this.pendingRafId = requestAnimationFrame(() => {
+        // Double-check clickNavigating in case it changed (using global flag)
+        if (!(window as any).__tocClickNav) {
+          this.updateActiveHeading();
+        }
+        this.pendingRafId = null;
+      });
+    };
+
+    updateActiveHeading = () => {
+      // Skip if click navigation is in progress (using global flag)
+      if ((window as any).__tocClickNav) return;
+      if (!this.headings.length) return;
+
+      const offset = 150; // Offset from top of viewport for heading detection
+
+      // Find the heading that was most recently scrolled past
+      let activeIdx = -1;
+
+      for (let i = 0; i < this.headings.length; i++) {
+        const heading = this.headings[i];
+        if (!heading) continue;
+
+        const rect = heading.getBoundingClientRect();
+        const headingTop = rect.top;
+
+        // If heading has been scrolled past (is above or at offset)
+        if (headingTop <= offset) {
+          activeIdx = i;
+        }
+      }
+
+      // If at the very top of the page, show the first visible heading
+      if (activeIdx === -1) {
+        for (let i = 0; i < this.headings.length; i++) {
+          const heading = this.headings[i];
+          if (!heading) continue;
+
+          const rect = heading.getBoundingClientRect();
+          if (rect.top <= window.innerHeight) {
+            activeIdx = i;
+            break;
+          }
+        }
+      }
+
+      // If still nothing, default to first
+      if (activeIdx === -1 && this.headings.length > 0) {
+        activeIdx = 0;
+      }
+
+      // Update classes
+      this.tocEntries.forEach((entry, i) => {
+        if (i === activeIdx) {
+          entry.classList.add(this.visibleClass);
+        } else {
+          entry.classList.remove(this.visibleClass);
+        }
+      });
+
+      // Update indicator
+      this.updateIndicator(activeIdx);
+    };
+
+    updateIndicator = (activeIdx: number) => {
+      if (!this.activeIndicator || !this.navEl) return;
+
+      if (activeIdx < 0 || activeIdx >= this.tocEntries.length) {
+        this.activeIndicator.style.opacity = "0";
         return;
       }
 
-      const offset = 100;
-      const targetPosition = targetElement.offsetTop - offset;
-      window.scrollTo({ top: targetPosition, behavior: "smooth" });
-      history.pushState(null, "", `#${targetId}`);
+      const activeEntry = this.tocEntries[activeIdx];
+      if (!activeEntry) {
+        this.activeIndicator.style.opacity = "0";
+        return;
+      }
+
+      const navRect = this.navEl.getBoundingClientRect();
+      const entryRect = activeEntry.getBoundingClientRect();
+
+      const top = entryRect.top - navRect.top;
+      const height = entryRect.height;
+
+      this.activeIndicator.style.top = `${top}px`;
+      this.activeIndicator.style.height = `${height}px`;
+      this.activeIndicator.style.opacity = "1";
     };
 
-    links.forEach((link) => {
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
-        const targetId = link.getAttribute("href")?.slice(1);
-        if (targetId) {
-          scrollToHeading(targetId);
+    setActiveItem = (idx: number, noTransition = false) => {
+      // Update classes
+      this.tocEntries.forEach((entry, i) => {
+        if (i === idx) {
+          entry.classList.add(this.visibleClass);
+        } else {
+          entry.classList.remove(this.visibleClass);
         }
       });
-    });
 
-    const observerOptions = {
-      rootMargin: "-100px 0px -70% 0px",
-      threshold: 0,
-    };
+      // Temporarily disable transition if requested
+      if (noTransition && this.activeIndicator) {
+        this.activeIndicator.style.transition = "none";
+      }
 
-    const activeClass = "active";
-    let currentActiveLink = null;
+      // Update indicator
+      this.updateIndicator(idx);
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const id = entry.target.getAttribute("id");
-        const correspondingLink = id
-          ? toc.querySelector(`.floating-toc__link[href="#${id}"]`)
-          : null;
-
-        if (entry.isIntersecting && correspondingLink) {
-          if (currentActiveLink && currentActiveLink !== correspondingLink) {
-            currentActiveLink.classList.remove(activeClass);
+      // Re-enable transition after a frame
+      if (noTransition && this.activeIndicator) {
+        requestAnimationFrame(() => {
+          if (this.activeIndicator) {
+            this.activeIndicator.style.transition = "";
           }
-
-          correspondingLink.classList.add(activeClass);
-          currentActiveLink = correspondingLink;
-        }
-      });
-    }, observerOptions);
-
-    headings.forEach((heading) => {
-      if (heading) {
-        observer.observe(heading);
+        });
       }
-    });
+    };
 
-    const setInitialActive = () => {
-      const scrollPosition = window.scrollY + 150;
-      for (let index = headings.length - 1; index >= 0; index -= 1) {
-        const heading = headings[index];
-        const link = links[index];
-        if (heading && link && scrollPosition >= heading.offsetTop) {
-          link.classList.add(activeClass);
-          currentActiveLink = link;
-          break;
+    // Custom smooth scroll with configurable duration
+    // 缓动函数选择（取消注释想要的效果）:
+    // - linear: 匀速，无加减速
+    // - easeOutQuad: 先快后慢（减速）
+    // - easeInOutQuad: 先加速后减速
+    smoothScrollTo = (targetY: number, duration: number) => {
+      const startY = window.scrollY;
+      const distance = targetY - startY;
+      const startTime = performance.now();
+
+      // 临时禁用 CSS scroll-behavior，让 JS 控制滚动
+      const html = document.documentElement;
+      const originalBehavior = html.style.scrollBehavior;
+      html.style.scrollBehavior = "auto";
+
+      // 缓动函数（改这里调整加减速效果）
+      // const easing = (t: number) => t; // 匀速
+      const easing = (t: number) => t * (2 - t); // 先快后慢
+      // const easing = (t: number) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; // 先加速后减速
+
+      const animateScroll = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easing(progress);
+
+        window.scrollTo(0, startY + distance * eased);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateScroll);
+        } else {
+          // 动画结束，恢复 CSS scroll-behavior
+          html.style.scrollBehavior = originalBehavior;
+        }
+      };
+
+      requestAnimationFrame(animateScroll);
+    };
+
+    handleClick = (event: Event) => {
+      const anchor =
+        event.target instanceof Element ? event.target.closest("a") : null;
+
+      if (anchor) {
+        event.preventDefault();
+        const targetId = decodeURIComponent(anchor.hash?.substring(1) || "");
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          // Find the clicked item index
+          const clickedIdx = this.tocEntries.findIndex(
+            (entry) =>
+              decodeURIComponent(entry.hash?.substring(1) || "") === targetId,
+          );
+
+          if (clickedIdx !== -1) {
+            // Cancel any pending scroll updates
+            if (this.pendingRafId) {
+              cancelAnimationFrame(this.pendingRafId);
+              this.pendingRafId = null;
+            }
+
+            // Pause scroll detection (using global flag)
+            (window as any).__tocClickNav = true;
+            if (this.clickNavigatingTimeout) {
+              clearTimeout(this.clickNavigatingTimeout);
+            }
+
+            // Immediately highlight the clicked item (no transition for instant jump)
+            this.setActiveItem(clickedIdx, true);
+
+            // Scroll to the target with custom animation speed
+            const targetPosition = targetElement.offsetTop;
+            const scrollDuration = 300; // ⬅️ 滚动动画时长（毫秒），可以在这里调整速度
+            this.smoothScrollTo(targetPosition, scrollDuration);
+            history.pushState(null, "", `#${targetId}`);
+
+            // Resume scroll detection after animation completes
+            this.clickNavigatingTimeout = window.setTimeout(() => {
+              (window as any).__tocClickNav = false;
+            }, scrollDuration + 100); // Add buffer after scroll completes
+          }
         }
       }
     };
 
-    setInitialActive();
-  });
+    destroy() {
+      if (this.scrollHandler) {
+        window.removeEventListener("scroll", this.scrollHandler);
+      }
+      if (this.clickNavigatingTimeout) {
+        clearTimeout(this.clickNavigatingTimeout);
+      }
+      this.tocEl?.removeEventListener("click", this.handleClick);
+    }
+  }
+
+  // Initialize on page load - use global window property for proper cleanup across View Transitions
+  function initTOC() {
+    // Clean up previous instance using global reference
+    const prevInstance = (window as any)
+      .__tocInstance as TableOfContents | null;
+    if (prevInstance) {
+      prevInstance.destroy();
+    }
+
+    const toc = new TableOfContents();
+    (window as any).__tocInstance = toc;
+    toc.init();
+  }
+
+  // Initial load
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initTOC);
+  } else {
+    initTOC();
+  }
+
+  // Astro View Transitions
+  document.addEventListener("astro:page-load", initTOC);
 </script>

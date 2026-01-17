@@ -216,6 +216,13 @@
   function initImage(img) {
     if (img.dataset.lightboxInit === 'true') return;
     if (img.closest('.lightbox')) return;
+    
+    // Skip images inside links (e.g., post thumbnails on homepage)
+    // These should navigate to the linked page, not open lightbox
+    if (img.closest('a')) return;
+    
+    // Skip images in sidebar/profile/navigation areas
+    if (img.closest('.sidebar, .profile, .site-header, .nav, .author__photo')) return;
 
     // Check size - use either rendered or natural dimensions
     const width = img.width || img.naturalWidth || 0;

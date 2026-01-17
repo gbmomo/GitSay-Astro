@@ -230,7 +230,7 @@ const alternates = (() => {
     </div>
   </div>
 
-  {headings.length > 0 && <FloatingTOC headings={headings} lang={lang} />}
+  <FloatingTOC headings={headings} lang={lang} slot="toc" />
 
   {
     siteConfig.features.imageLightbox && (

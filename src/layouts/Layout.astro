@@ -381,5 +381,7 @@ const navItems = await resolveNavItems();
       <script is:inline set:html={localeBootstrap} />
       <script src="/js/sticky-sidebar.js" defer></script>
     </div>
+    <!-- TOC slot: placed outside .page to avoid transform containing block issues -->
+    <slot name="toc" />
   </body>
 </html>
