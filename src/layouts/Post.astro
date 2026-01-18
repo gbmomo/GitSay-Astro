@@ -2,7 +2,6 @@
 import Layout from "./Layout.astro";
 import AIWarning from "@components/AIWarning.astro";
 import FloatingTOC from "@components/FloatingTOC.astro";
-import AdUnit from "@components/AdUnit.astro";
 import siteConfig from "@config/site";
 import {
   type PostEntry,
@@ -162,9 +161,6 @@ const alternates = (() => {
             </div>
           </div>
         </div>
-
-        <!-- Google AdSense 广告 -->
-        <AdUnit />
 
         {
           siteConfig.features.postNavigation && (

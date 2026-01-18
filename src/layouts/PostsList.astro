@@ -3,7 +3,6 @@ import Layout from "./Layout.astro";
 import ProfileCard from "@components/layout/ProfileCard.astro";
 import ContactLinks from "@components/layout/ContactLinks.astro";
 import FooterCopy from "@components/layout/FooterCopy.astro";
-import AdUnit from "@components/AdUnit.astro";
 import siteConfig from "@config/site";
 import {
   type PostEntry,
@@ -412,11 +411,6 @@ if (defaultAlternate) {
         title={t("ui.contacts")}
         links={contactLinks}
       />
-
-      <!-- Google AdSense 侧边栏广告 -->
-      <div class="sidebar__ad">
-        <AdUnit />
-      </div>
 
       <FooterCopy className="sidebar__footer" />
     </div>
