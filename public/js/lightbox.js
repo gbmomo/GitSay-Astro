@@ -52,12 +52,34 @@
     }
   }
 
+  // Detect if we're on a mobile device for animation timing adjustments
+  function isMobileDevice() {
+    return window.innerWidth < 768 ||
+      ('ontouchstart' in window) ||
+      (navigator.maxTouchPoints > 0);
+  }
+
+  // Get animation durations based on device type
+  function getAnimationDurations() {
+    const isMobile = isMobileDevice();
+    return {
+      // Longer durations on mobile for more visible animations
+      bgFadeIn: isMobile ? '0.25s' : '0.15s',
+      bgFadeOut: isMobile ? '0.3s' : '0.15s',
+      imgTransform: isMobile ? '0.4s' : '0.25s',
+      // Corresponding timeout values in ms
+      closeTimeout: isMobile ? 400 : 250,
+      openTimeout: isMobile ? 400 : 250
+    };
+  }
+
   function closeLightbox() {
     if (state.isAnimating || !state.lightbox) return;
 
     if (state.sourceImageRef && state.lightboxImage) {
       state.isAnimating = true;
 
+      const durations = getAnimationDurations();
       const sourceRect = state.sourceImageRef.getBoundingClientRect();
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
@@ -80,11 +102,23 @@
       const finalWidth = naturalWidth * fitRatio;
       const targetScale = sourceRect.width / finalWidth;
 
-      state.lightbox.style.transition = 'opacity 0.15s ease-out';
-      state.lightbox.style.opacity = '0';
+      // Use a more pronounced easing curve for mobile - starts slow, accelerates
+      const easingCurve = isMobileDevice()
+        ? 'cubic-bezier(0.4, 0.0, 0.2, 1)' // Material Design standard easing
+        : 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-      state.lightboxImage.style.transition = 'transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      // Apply image transform FIRST, then fade out background with a slight delay
+      // This makes the animation more visible on mobile
+      state.lightboxImage.style.transition = `transform ${durations.imgTransform} ${easingCurve}`;
       state.lightboxImage.style.transform = `translate(${targetOffsetX}px, ${targetOffsetY}px) scale(${targetScale})`;
+
+      // Delay background fade slightly so image movement is more visible
+      setTimeout(() => {
+        if (state.lightbox) {
+          state.lightbox.style.transition = `opacity ${durations.bgFadeOut} ease-out`;
+          state.lightbox.style.opacity = '0';
+        }
+      }, isMobileDevice() ? 100 : 0);
 
       setTimeout(() => {
         if (state.lightbox) {
@@ -100,7 +134,7 @@
         resetZoom();
         state.isAnimating = false;
         state.sourceImageRef = null;
-      }, 250);
+      }, durations.closeTimeout);
     } else {
       if (state.lightbox) {
         state.lightbox.style.display = 'none';
@@ -179,10 +213,15 @@
       void state.lightboxImage.offsetHeight;
 
       requestAnimationFrame(() => {
-        state.lightbox.style.transition = 'opacity 0.15s ease-out';
+        const durations = getAnimationDurations();
+        const easingCurve = isMobileDevice()
+          ? 'cubic-bezier(0.0, 0.0, 0.2, 1)' // Decelerate easing - starts fast, ends slow
+          : 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+        state.lightbox.style.transition = `opacity ${durations.bgFadeIn} ease-out`;
         state.lightbox.style.opacity = '1';
 
-        state.lightboxImage.style.transition = 'transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        state.lightboxImage.style.transition = `transform ${durations.imgTransform} ${easingCurve}`;
         state.lightboxImage.style.transform = 'translate(0, 0) scale(1)';
 
         setTimeout(() => {
@@ -190,7 +229,7 @@
           if (state.lightbox) state.lightbox.style.transition = '';
           state.isAnimating = false;
           resetZoom();
-        }, 250);
+        }, durations.openTimeout);
       });
     };
 
@@ -216,11 +255,11 @@
   function initImage(img) {
     if (img.dataset.lightboxInit === 'true') return;
     if (img.closest('.lightbox')) return;
-    
+
     // Skip images inside links (e.g., post thumbnails on homepage)
     // These should navigate to the linked page, not open lightbox
     if (img.closest('a')) return;
-    
+
     // Skip images in sidebar/profile/navigation areas
     if (img.closest('.sidebar, .profile, .site-header, .nav, .author__photo')) return;
 
