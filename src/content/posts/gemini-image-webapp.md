@@ -52,7 +52,7 @@ date: '2026-02-10'
 
 ![网站首页](/img/posts/gemini-image-webapp/homepage.png)
 
-首页即工作台。左侧是会话管理，中间是对话区域，顶部可以选择分辨率和纵横比。界面简洁现代，所有功能触手可及。
+首页即工作台。左侧是会话管理，中间是对话区域，会话管理下方可以选择分辨率和纵横比。界面简洁现代，所有功能触手可及。
 
 ### AI 图片生成效果
 
@@ -190,7 +190,7 @@ ADMIN_PASSWORD=管理员密码
 | `FLASK_ENV` | 设为 `production` 开启生产模式（强制 HTTPS 等） | 空 |
 | `FLASK_DEBUG` | 设为 `True` 开启调试模式（仅开发时使用） | `False` |
 
-> 💡 以上只列出了主要的配置项。**完整的环境变量说明和示例请参考仓库中的 [`.env.example`](https://github.com/gbmomo/gemini-image-webapp/blob/main/.env.example) 文件**，或查阅 **[README 文档](https://github.com/gbmomo/gemini-image-webapp#readme)** 获取最新信息。
+> 💡 以上列出了主要的配置项。**详细的环境变量说明和示例请参考仓库中的 [`.env.example`](https://github.com/gbmomo/gemini-image-webapp/blob/main/.env.example) 文件**，或查阅 **[README 文档](https://github.com/gbmomo/gemini-image-webapp#readme)** 获取最新信息。
 
 #### 关于 API 代理
 
