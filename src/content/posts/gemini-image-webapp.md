@@ -119,8 +119,8 @@ date: '2026-02-10'
 | **后端** | Python 3.10+ / Flask 3.0+ |
 | **数据库** | SQLite（零配置，开箱即用） |
 | **前端** | 原生 HTML / CSS / JavaScript |
-| **AI 引擎** | Google Gemini API（gemini-3-pro-image-preview） |
-| **部署** | Gunicorn + Nginx / 1Panel / Docker |
+| **AI 引擎** | Google Gemini API（Nano Banana 2 默认） |
+| **部署** | Gunicorn + Nginx / 宝塔面板 / Docker |
 
 项目结构清晰，代码量不大但功能完整，非常适合作为 Flask + AI API 的学习项目。
 
@@ -181,7 +181,7 @@ ADMIN_PASSWORD=管理员密码
 
 | 变量名 | 说明 | 默认值 |
 |--------|------|--------|
-| `GEMINI_MODEL` | 使用的 Gemini 模型名称 | `gemini-3-pro-image-preview` |
+| `GEMINI_MODEL` | 控制前端默认选中的模型，用户仍可在界面上手动切换 | `gemini-3.1-flash-image-preview` |
 | `GEMINI_API_BASE_URL` | 自定义 API 代理地址（见下方说明） | Google 官方地址 |
 | `EMAIL_SENDER` | 发送验证码的邮箱地址 | 空 |
 | `EMAIL_PASSWORD` | 邮箱授权码（注意：不是登录密码） | 空 |
@@ -189,6 +189,17 @@ ADMIN_PASSWORD=管理员密码
 | `SMTP_PORT` | SMTP 端口号 | `465` |
 | `FLASK_ENV` | 设为 `production` 开启生产模式（强制 HTTPS 等） | 空 |
 | `FLASK_DEBUG` | 设为 `True` 开启调试模式（仅开发时使用） | `False` |
+
+`GEMINI_MODEL` 可选值说明：
+
+```env
+# 默认使用 gemini-3.1-flash-image-preview（Nano Banana 2，快速高效）
+# 可选值：
+#   gemini-3.1-flash-image-preview  —— Nano Banana 2（快速高效，默认）
+#   gemini-3-pro-image-preview      —— Nano Banana Pro（专业创作）
+# 此设置控制前端默认选中的模型，用户仍可在界面上切换
+# GEMINI_MODEL=gemini-3.1-flash-image-preview
+```
 
 > 💡 以上列出了主要的配置项。**详细的环境变量说明和示例请参考仓库中的 [`.env.example`](https://github.com/gbmomo/gemini-image-webapp/blob/main/.env.example) 文件**，或查阅 **[README 文档](https://github.com/gbmomo/gemini-image-webapp#readme)** 获取最新信息。
 
@@ -213,17 +224,101 @@ python app.py
 
 ---
 
-## 生产环境部署
+## 生产环境部署（宝塔面板）
 
-如果要把网站部署到公网，推荐使用 **1Panel 面板**，操作最简单：
+如果要把网站部署到公网，推荐使用 **宝塔面板**，操作简单适合新手。
 
-1. 上传项目代码到服务器
-2. 在 1Panel 创建 Python 运行环境
-3. 启动命令填：`pip install -r requirements.txt && gunicorn -w 6 -b 0.0.0.0:5000 --timeout 300 app:app`
-4. 配置环境变量（参考上面的环境变量表格）
-5. 创建反向代理网站 + SSL 证书
+### 第零步：准备 Python 环境
 
-当然也支持 Docker 部署、宝塔面板、手动 Gunicorn + Nginx 等方式。更多部署细节请参考 **[GitHub 仓库 README](https://github.com/gbmomo/gemini-image-webapp#-生产环境部署)**。
+**a. 安装 Python 版本**
+
+1. 宝塔面板 → 「网站」→ 「Python 项目」
+2. 点击 **「环境管理」** → **「版本管理」**
+3. 找到 **Python 3.14.3**（或其他 3.10+ 版本），点击 **「安装」**
+
+![安装 Python 版本](/img/posts/gemini-image-webapp/python版本安装界面.png)
+
+**b. 创建虚拟环境**
+
+安装完成后，建议为本项目创建独立的虚拟环境，防止不同项目之间依赖包冲突。
+
+1. 在「环境管理」页面，选择已安装的 Python 版本
+2. 点击 **「创建虚拟环境」**
+3. 填写虚拟环境名称，例如 `gitsay_gemini_nano`
+4. 点击确认创建
+
+![创建虚拟环境](/img/posts/gemini-image-webapp/创建虚拟环境界面.png)
+
+### 第一步：上传项目代码
+
+通过宝塔面板「文件」管理等方式，将项目上传到 `/www/wwwroot/gemini-image-webapp`。
+
+也可以在服务器终端直接拉取：
+
+```bash
+cd /www/wwwroot
+git clone https://github.com/gbmomo/gemini-image-webapp.git
+```
+
+### 第二步：创建 Python 项目
+
+1. 宝塔面板 → 「网站」→ 「Python 项目」→ **「添加 Python 项目」**
+2. 按以下配置填写：
+
+![添加 Python 项目](/img/posts/gemini-image-webapp/宝塔面板添加python项目.png)
+
+| 配置项 | 填写内容 |
+|--------|----------|
+| **项目名称** | `gemini-image-webapp` |
+| **Python 环境** | 选择刚才安装的版本 |
+| **启动方式** | `gunicorn` |
+| **项目路径** | `/www/wwwroot/gemini-image-webapp` |
+| **启动命令** | `gunicorn -w 3 -b 0.0.0.0:5000 --timeout 300 app:app` |
+| **环境变量** | 选择「指定变量」（第三步配置） |
+| **启动用户** | `www`（默认） |
+
+### 第三步：配置环境变量
+
+在项目设置中选择「指定变量」，逐行添加：
+
+![环境变量配置](/img/posts/gemini-image-webapp/环境变量配置界面.png)
+
+```env
+GEMINI_API_KEY=你的Gemini_API_Key
+SECRET_KEY=随机密钥字符串
+ADMIN_PASSWORD=管理员密码
+FLASK_ENV=production
+FLASK_DEBUG=False
+# 邮箱配置（可选）
+EMAIL_SENDER=你的邮箱@example.com
+EMAIL_PASSWORD=邮箱授权码
+SMTP_SERVER=smtp.exmail.qq.com
+SMTP_PORT=465
+```
+
+### 第四步：启动并验证
+
+点击「启动」后，确认项目状态显示「运行中」：
+
+![项目运行状态](/img/posts/gemini-image-webapp/项目运行状态.png)
+
+### 第五步：域名绑定和外网映射
+
+**绑定域名**：在项目设置 →「域名管理」中添加你的域名。
+
+![域名绑定](/img/posts/gemini-image-webapp/域名绑定界面.png)
+
+**开启外网映射**：在项目设置中开启外网映射，代理路由填 `/`，代理端口填 `5000`。
+
+![外网映射配置](/img/posts/gemini-image-webapp/外网映射配置.png)
+
+### 第六步：申请 SSL 证书
+
+在宝塔面板 → 「网站」中找到外网映射自动创建的网站，进入设置 → 「SSL」，申请免费证书，并开启「强制 HTTPS」。
+
+![申请 SSL 证书](/img/posts/gemini-image-webapp/SSL证书申请.png)
+
+> 💡 详细的部署教程（Nginx 配置、安全加固等）请参考 **[GitHub 仓库完整 README](https://github.com/gbmomo/gemini-image-webapp#-生产环境部署宝塔面板)**。
 
 ---
 
